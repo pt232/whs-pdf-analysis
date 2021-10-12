@@ -9,7 +9,7 @@ const app = express();
 const fileName = path.basename(__filename);
 
 app.set("view engine", "ejs");
-app.set("views", path.join(__dirname, "views"));
+app.set("views", path.join(__dirname, "../views"));
 app.use(express.static("public"));
 app.use(express.json());
 app.use(

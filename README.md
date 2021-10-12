@@ -21,7 +21,11 @@ Befolge diese einfachen Schritte, um eine lokale Kopie des Projektes zum Laufen 
    ```sh
    npm install
    ```
-3. Server starten
+3. Tailwind CSS bereitstellen
+   ```sh
+   npm run build:css
+   ```
+4. Server starten
    ```sh
    npm run dev
    ```
