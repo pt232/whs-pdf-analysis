@@ -21,8 +21,9 @@ function formatBaseMessage(level: string, fileName: string, message: string): st
 }
 
 function formatMessageContent(method: string, url: string, status?: number): string {
-  if (status == null) return `METHOD: [${method}] - URL: [${url}]`;
-  return `METHOD: [${method}] - URL: [${url}] - STATUS: [${status}]`;
+  return status == null
+    ? `METHOD: [${method}] - URL: [${url}]`
+    : `METHOD: [${method}] - URL: [${url}] - STATUS: [${status}]`;
 }
 
 export default {
