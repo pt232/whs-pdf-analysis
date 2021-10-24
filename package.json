@@ -9,7 +9,6 @@
     "clean": "npx rimraf ./build",
     "build:css": "npx tailwindcss -i ./public/css/tailwind.css -o ./public/css/styles.css",
     "build": "npm run clean && npm run format && npm run lint && tsc && npm run build:css",
-    "postinstall": "npm run build",
     "dev": "nodemon --exec ts-node ./src/server.ts",
     "start": "node ./build/server.js"
   },
