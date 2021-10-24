@@ -20,6 +20,10 @@ module.exports = {
           light: "#8b98bb",
           DEFAULT: "#69779B",
         },
+        success: {
+          light: "#daece0",
+          DEFAULT: "#6ac46f",
+        },
       },
     },
   },
