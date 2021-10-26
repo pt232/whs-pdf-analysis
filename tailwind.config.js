@@ -1,5 +1,5 @@
 module.exports = {
-  purge: { enabled: false, content: ["./src/**/*.ejs"] },
+  purge: { enabled: true, content: ["./views/**/*.ejs"] },
   darkMode: false,
   theme: {
     extend: {
