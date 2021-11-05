@@ -5,6 +5,7 @@ import expressLayouts from "express-ejs-layouts";
 import logger from "./config/logger";
 import config from "./config/config";
 import indexRouter from "./routes/index.routes";
+import uploadRouter from "./routes/upload.routes";
 
 const app = express();
 const fileName = path.basename(__filename);
@@ -15,6 +16,7 @@ app.set("layout", "layouts/layout");
 app.use(expressLayouts);
 app.use(express.static("public"));
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use(
   cors({
     origin: `http://:${config.server.hostname}:${config.server.port}`,
@@ -30,6 +32,7 @@ app.use((req: Request, res: Response, next: NextFunction) => {
 });
 
 app.use("/", indexRouter);
+app.use("/upload", uploadRouter);
 app.use((req: Request, res: Response) => {
   res.status(404).render("404");
 });

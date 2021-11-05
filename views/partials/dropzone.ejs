@@ -1,4 +1,5 @@
 <div
+  id="dropzone"
   class="
     flex flex-col
     lg:w-6/12 lg:h-96
@@ -10,8 +11,10 @@
     to-neutral-light
     border-2 border-dashed border-primary
     rounded-lg
+    transition-colors
   "
 >
+  <input type="file" accept=".pdf" multiple="multiple" id="fileInput" class="hidden" />
   <i
     class="
       fas
@@ -22,11 +25,13 @@
       to-primary-light
       bg-clip-text
       text-transparent
+      pointer-events-none
+      transition-opacity
     "
   ></i>
-  <div class="py-6 text-center">
+  <div class="py-6 text-center pointer-events-none transition-opacity">
     <p class="text-gray-light">Dateien hier ablegen</p>
     <span class="text-gray-light font-semibold uppercase opacity-50">oder</span>
   </div>
-  <%- include("button.ejs", {text: "Suchen"}) %>
+  <%- include("button.ejs", {text: "Suchen", id: "searchBtn"}) %>
 </div>
