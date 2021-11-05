@@ -2,11 +2,11 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-const SERVER_HOSTNAME = process.env.HOST || "localhost";
-const SERVER_PORT = process.env.PORT || 5000;
+const HOSTNAME = process.env.HOST || "localhost";
+const PORT = process.env.PORT || 5000;
 const SERVER = {
-  hostname: SERVER_HOSTNAME,
-  port: SERVER_PORT,
+  hostname: HOSTNAME,
+  port: PORT,
 };
 
 export default {
