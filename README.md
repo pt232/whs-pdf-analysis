@@ -17,15 +17,15 @@ Befolge diese einfachen Schritte, um eine lokale Kopie des Projektes zum Laufen 
    ```sh
    git clone https://github.com/pt232/whs-pdf-analysis.git
    ```
-2. NPM-Packages installieren
+2. NPM-Packages auf Client und Server installieren
    ```sh
    npm install
    ```
-3. Tailwind CSS bereitstellen
-   ```sh
-   npm run build:css
-   ```
-4. Server starten
+3. Server starten
    ```sh
    npm run dev
+   ```
+4. Client starten
+   ```sh
+   npm start
    ```
