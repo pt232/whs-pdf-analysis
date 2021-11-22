@@ -2,13 +2,14 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-const HOSTNAME = process.env.HOST || "localhost";
-const PORT = process.env.PORT || 5000;
-const SERVER = {
-  hostname: HOSTNAME,
-  port: PORT,
-};
+const SERVER_HOST = process.env.SERVER_HOST || "localhost";
+const SERVER_PORT = process.env.PORT || 5000;
+const CLIENT_HOST = process.env.CLIENT_HOST || "localhost";
+const CLIENT_PORT = process.env.CLIENT_PORT || 3000;
 
 export default {
-  server: SERVER,
+  serverHostname: SERVER_HOST,
+  serverPort: SERVER_PORT,
+  clientHostname: CLIENT_HOST,
+  clientPort: CLIENT_PORT,
 };

@@ -1,42 +1,32 @@
-import express, { NextFunction, Request, Response } from "express";
-import path from "path";
+import express, { Request, Response } from "express";
 import cors from "cors";
-import expressLayouts from "express-ejs-layouts";
-import logger from "./config/logger";
 import config from "./config/config";
-import indexRouter from "./routes/index.routes";
 import uploadRouter from "./routes/upload.routes";
 
 const app = express();
-const fileName = path.basename(__filename);
 
-app.set("view engine", "ejs");
-app.set("views", path.join(__dirname, "../views"));
-app.set("layout", "layouts/layout");
-app.use(expressLayouts);
 app.use(express.static("public"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(
   cors({
-    origin: `http://:${config.server.hostname}:${config.server.port}`,
+    origin: `http://:${config.clientHostname}:${config.clientPort}`,
     methods: ["GET", "POST"],
   })
 );
-app.use((req: Request, res: Response, next: NextFunction) => {
-  logger.info(fileName, logger.formatMessageContent(req.method, req.url));
-  res.on("finish", () => {
-    logger.info(fileName, logger.formatMessageContent(req.method, req.url, res.statusCode));
-  });
-  next();
+
+app.get("/", (req: Request, res: Response) => {
+  res.status(200).json({ message: "Welcome to this API!" });
 });
 
-app.use("/", indexRouter);
 app.use("/upload", uploadRouter);
+
 app.use((req: Request, res: Response) => {
-  res.status(404).render("404");
+  res.status(404).json({ message: "This route does not exist!" });
 });
 
-app.listen(config.server.port, () =>
-  logger.info(fileName, `Server is running on ${config.server.hostname}:${config.server.port}`)
+app.listen(config.serverPort, () =>
+  console.log(
+    `Server is running on ${config.serverHostname}:${config.serverPort}`
+  )
 );
