@@ -1,11 +1,24 @@
+const defaultTheme = require("tailwindcss/defaultTheme");
+
 module.exports = {
   purge: [],
-  darkMode: false, // or 'media' or 'class'
+  darkMode: false,
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        "thenex-blue": "#1268b0",
+        "thenex-gray": "#959595",
+      },
+      fontFamily: {
+        sans: ["Opens Sans", ...defaultTheme.fontFamily.sans],
+      },
+      backgroundImage: {
+        "dropzone-pattern": "url('/src/images/pattern.png')",
+      },
+    },
   },
   variants: {
     extend: {},
   },
   plugins: [],
-}
+};
