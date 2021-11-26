@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { fileListToArray } from "../utils/listToArray";
 
 export default function useDrag() {
   const [isDragging, setIsDragging] = useState(false);
@@ -20,12 +21,7 @@ export default function useDrag() {
     const files = e.dataTransfer?.files;
 
     if (files && files.length > 0) {
-      let addedFiles: File[] = [];
-
-      Array.from(files).forEach((file) => {
-        addedFiles.push(file);
-      });
-
+      let addedFiles = fileListToArray(files);
       setDraggedFiles((prevFiles) => [...prevFiles, ...addedFiles]);
 
       e.dataTransfer.clearData();
