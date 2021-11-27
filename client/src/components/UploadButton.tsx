@@ -1,9 +1,13 @@
-import { DocumentSearchIcon } from "@heroicons/react/outline";
+import { DocumentSearchIcon, PlusSmIcon } from "@heroicons/react/outline";
 import { useRef } from "react";
 import { useFiles } from "../context/FileProvider";
 import { fileListToArray } from "../utils/listToArray";
 
-export default function UploadButton() {
+type UploadButtonProps = {
+  isFileAddedState: boolean;
+};
+
+export default function UploadButton({ isFileAddedState }: UploadButtonProps) {
   const { addFiles } = useFiles();
   const inputEl = useRef<HTMLInputElement>(null);
 
@@ -20,10 +24,19 @@ export default function UploadButton() {
     <>
       <button
         onClick={handleClick}
-        className="flex items-center bg-thenex-blue text-white px-10 py-4 rounded shadow-lg transform transition-transform hover:scale-105"
+        className={`${isFileAddedState ? "btn--files" : "btn--default"}`}
       >
-        <span className="inline-block mr-8">Dateien wählen</span>
-        <DocumentSearchIcon className="h-7 w-7" />
+        {isFileAddedState ? (
+          <>
+            <PlusSmIcon className="h-6 w-6 text-thenex-blue" />
+            <span className="inline-block ml-3 text-sm">Füge mehr Dateien hinzu</span>
+          </>
+        ) : (
+          <>
+            <span className="inline-block mr-8">Dateien wählen</span>
+            <DocumentSearchIcon className="h-7 w-7" />
+          </>
+        )}
       </button>
       <input
         ref={inputEl}

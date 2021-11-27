@@ -23,11 +23,11 @@ export default function useDrag() {
     if (files && files.length > 0) {
       let addedFiles = fileListToArray(files);
       setDraggedFiles((prevFiles) => [...prevFiles, ...addedFiles]);
-
-      e.dataTransfer.clearData();
-      dragCounter.current = 0;
-      setIsDragging(false);
     }
+
+    e.dataTransfer?.clearData();
+    dragCounter.current = 0;
+    setIsDragging(false);
   }
 
   function handleDragLeave(e: DragEvent) {

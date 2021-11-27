@@ -10,7 +10,7 @@ export default function Step({ count, title }: StepProps) {
       <div className="flex justify-center items-center w-8 h-8 bg-white text-thenex-blue font-bold border border-solid border-thenex-gray rounded-full">
         {count}
       </div>
-      <h3 className="py-2 lg:text-lg">{title}</h3>
+      <h3 className="py-2 text-gray-700 lg:text-lg">{title}</h3>
       <p className="text-thenex-gray text-center text-sm">
         Lorem ipsum dolor sit amet consectetur adipisicing elit. Ex debitis, fugit possimus minus
         corrupti, deleniti excepturi accusantium quia dolores quaerat maxime adipisci ipsa,

@@ -18,7 +18,11 @@ module.exports = {
     },
   },
   variants: {
-    extend: {},
+    extend: {
+      translate: ["group-hover"],
+      boxShadow: ["last"],
+      borderWidth: ["last"],
+    },
   },
   plugins: [],
 };
