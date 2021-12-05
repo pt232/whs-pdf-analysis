@@ -7,7 +7,10 @@ module.exports = {
     extend: {
       colors: {
         "thenex-blue": "#1268b0",
-        "thenex-gray": "#959595",
+        "thenex-gray": {
+          DEFAULT: "#959595",
+          dark: "#333333",
+        },
       },
       fontFamily: {
         sans: ["Opens Sans", ...defaultTheme.fontFamily.sans],
@@ -21,7 +24,7 @@ module.exports = {
     extend: {
       translate: ["group-hover"],
       boxShadow: ["last"],
-      borderWidth: ["last"],
+      borderWidth: ["hover", "last"],
     },
   },
   plugins: [],

@@ -1,8 +1,9 @@
 import { ChevronDownIcon } from "@heroicons/react/solid";
+import { IFile } from "../context/FileProvider";
 import FileItem from "./FileItem";
 
 type FileListProps = {
-  files: File[];
+  files: IFile[];
 };
 
 export default function FileList({ files }: FileListProps) {
@@ -15,7 +16,7 @@ export default function FileList({ files }: FileListProps) {
       </ul>
       <div className="flex justify-center py-6 bg-gray-100">
         <p className="flex items-center text-thenex-gray text-xs cursor-pointer">
-          Konvertiere alle in <ChevronDownIcon className="ml-1 w-4 h-4" />
+          Vorlage für alle <ChevronDownIcon className="ml-1 w-4 h-4" />
         </p>
       </div>
     </div>

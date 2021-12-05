@@ -1,7 +1,20 @@
 import { createContext, ReactNode, useContext, useState } from "react";
+import { v4 as uuid } from "uuid";
+import { calculateFileSize } from "../utils/calculateFileSize";
+import { cropFileName } from "../utils/cropFileName";
+
+export interface IFile {
+  id: string;
+  croppedName: string;
+  template: string;
+  loading: boolean;
+  converted: boolean;
+  calculatedSize: string;
+  file: File;
+}
 
 type ContextProps = {
-  addedFiles: File[];
+  addedFiles: IFile[];
   addFiles: (files: File[]) => void;
 };
 
@@ -9,21 +22,16 @@ type ProviderProps = {
   children: ReactNode;
 };
 
-const defaultState = {
-  addedFiles: [],
-  addFiles: () => {},
-};
-
 const FILE_TYPE = "application/pdf";
 const MAX_FILE_SIZE_MB = 5;
-const FileContext = createContext<ContextProps>(defaultState);
+const FileContext = createContext<ContextProps>({ addedFiles: [], addFiles: () => {} });
 
 export function useFiles() {
   return useContext(FileContext);
 }
 
 export default function FileProvider({ children }: ProviderProps) {
-  const [addedFiles, setAddedFiles] = useState<File[]>([]);
+  const [addedFiles, setAddedFiles] = useState<IFile[]>([]);
 
   function addFiles(files: File[]) {
     if (files.length === 0) return;
@@ -31,12 +39,26 @@ export default function FileProvider({ children }: ProviderProps) {
     files.forEach((file) => {
       if (!checkFileForProperties(file)) return;
 
-      if (!fileExists(file)) setAddedFiles((prevFiles) => [...prevFiles, file]);
+      if (!fileExists(file)) {
+        const customFileObj = {
+          id: uuid(),
+          croppedName: cropFileName(file.name),
+          template: "",
+          loading: false,
+          converted: false,
+          calculatedSize: calculateFileSize(file.size),
+          file,
+        };
+
+        setAddedFiles((prevFiles) => [...prevFiles, customFileObj]);
+      }
     });
   }
 
   function fileExists(file: File) {
-    return addedFiles.find((f) => f.lastModified === file.lastModified && f.name === file.name);
+    return addedFiles.find(
+      (f) => f.file.lastModified === file.lastModified && f.file.name === file.name
+    );
   }
 
   function checkFileForProperties(file: File) {

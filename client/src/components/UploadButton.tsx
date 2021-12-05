@@ -5,9 +5,10 @@ import { fileListToArray } from "../utils/listToArray";
 
 type UploadButtonProps = {
   isFileAddedState: boolean;
+  text: string;
 };
 
-export default function UploadButton({ isFileAddedState }: UploadButtonProps) {
+export default function UploadButton({ isFileAddedState, text }: UploadButtonProps) {
   const { addFiles } = useFiles();
   const inputEl = useRef<HTMLInputElement>(null);
 
@@ -29,11 +30,11 @@ export default function UploadButton({ isFileAddedState }: UploadButtonProps) {
         {isFileAddedState ? (
           <>
             <PlusSmIcon className="h-6 w-6 text-thenex-blue" />
-            <span className="inline-block ml-3 text-sm">Füge mehr Dateien hinzu</span>
+            <span className="inline-block ml-3 text-sm">{text}</span>
           </>
         ) : (
           <>
-            <span className="inline-block mr-8">Dateien wählen</span>
+            <span className="inline-block mr-8">{text}</span>
             <DocumentSearchIcon className="h-7 w-7" />
           </>
         )}
