@@ -18,13 +18,13 @@ export default function FileItem({ file }: FileItemProps) {
       </div>
       <div className="flex items-center text-thenex-gray-dark col-start-3 row-start-2 md:col-start-2 md:row-start-1 justify-self-end">
         <span className="text-thenex-gray text-sm">als</span>
-        <TemplateSelector />
+        <TemplateSelector fileId={file.id} />
       </div>
       <Badge text="Fertig" loading={false} />
       <div className="-ml-8 md:ml-0 md:justify-self-center text-thenex-gray text-sm">
         {file.calculatedSize}
       </div>
-      <RemoveButton />
+      <RemoveButton fileId={file.id} />
     </div>
   );
 }

@@ -1,9 +1,10 @@
 import { useEffect, useRef, useState } from "react";
+import { useFiles } from "../context/FileProvider";
 import { fileListToArray } from "../utils/listToArray";
 
-export default function useDrag() {
+export default function useDrag(): boolean {
+  const { addFiles } = useFiles();
   const [isDragging, setIsDragging] = useState(false);
-  const [draggedFiles, setDraggedFiles] = useState<File[]>([]);
   const dragCounter = useRef(0);
 
   function handleDragEnter(e: DragEvent) {
@@ -21,8 +22,7 @@ export default function useDrag() {
     const files = e.dataTransfer?.files;
 
     if (files && files.length > 0) {
-      let addedFiles = fileListToArray(files);
-      setDraggedFiles((prevFiles) => [...prevFiles, ...addedFiles]);
+      addFiles(fileListToArray(files));
     }
 
     e.dataTransfer?.clearData();
@@ -50,5 +50,5 @@ export default function useDrag() {
     };
   });
 
-  return { isDragging, draggedFiles };
+  return isDragging;
 }

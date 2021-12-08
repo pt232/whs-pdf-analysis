@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import Wrapper from "./Wrapper";
 import DragIndicator from "../components/DragIndicator";
 import DropBar from "../components/DropBar";
@@ -8,12 +7,8 @@ import { useFiles } from "../context/FileProvider";
 import useDrag from "../hooks/useDrag";
 
 export default function HomePage() {
-  const { addedFiles, addFiles } = useFiles();
-  const { isDragging, draggedFiles } = useDrag();
-
-  useEffect(() => {
-    addFiles(draggedFiles);
-  }, [draggedFiles, addFiles]);
+  const { addedFiles } = useFiles();
+  const isDragging = useDrag();
 
   return (
     <Wrapper>
