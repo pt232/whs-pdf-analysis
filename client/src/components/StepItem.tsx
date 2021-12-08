@@ -1,10 +1,10 @@
-type StepProps = {
+type StepItemProps = {
   count: string;
   title: string;
   description?: string;
 };
 
-export default function Step({ count, title }: StepProps) {
+export default function StepItem({ count, title }: StepItemProps) {
   return (
     <div className="flex flex-col items-center max-w-xs px-8">
       <div className="flex justify-center items-center w-8 h-8 bg-white text-thenex-blue font-bold border border-solid border-thenex-gray rounded-full">

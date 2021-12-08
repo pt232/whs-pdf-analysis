@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { useFiles } from "../context/FileProvider";
+import { useFiles } from "../context/file/FileProvider";
 import { fileListToArray } from "../utils/listToArray";
 
 export default function useDrag(): boolean {

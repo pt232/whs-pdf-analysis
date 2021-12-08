@@ -1,6 +1,6 @@
 import React from "react";
 import { ChevronDownIcon } from "@heroicons/react/solid";
-import { IFile } from "../context/FileProvider";
+import { IFile } from "../context/file/FileProvider";
 import { useClickedOutside } from "../hooks/useClickedOutside";
 import FileItem from "./FileItem";
 import { TemplateList } from "./TemplateList";

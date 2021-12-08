@@ -1,9 +1,10 @@
 import { createContext, ReactNode, useContext, useReducer } from "react";
 import { v4 as uuid } from "uuid";
-import { calculateFileSize } from "../utils/calculateFileSize";
-import { cropFileName } from "../utils/cropFileName";
+import { useErrorMessage } from "../message/ErrorMessageProvider";
+import { calculateFileSize } from "../../utils/calculateFileSize";
+import { cropFileName } from "../../utils/cropFileName";
 import { fileReducer } from "./fileReducer";
-import { ADD_FILE, ADD_TEMPLATE, ADD_TEMPLATES, REMOVE_FILE } from "./types";
+import { ADD_FILE, ADD_TEMPLATE, ADD_TEMPLATES, REMOVE_FILE } from "../types";
 
 export interface IFile {
   id: string;
@@ -42,6 +43,7 @@ export function useFiles() {
 }
 
 export default function FileProvider({ children }: ProviderProps) {
+  const { addMessage, removeMessage } = useErrorMessage();
   const [state, dispatch] = useReducer(fileReducer, {
     files: [],
   });
@@ -49,13 +51,19 @@ export default function FileProvider({ children }: ProviderProps) {
   function addFiles(files: File[]) {
     if (files.length === 0) return;
 
-    files.forEach((file) => {
-      if (!checkFileForProperties(file)) return;
+    removeMessage();
 
-      if (!fileExists(file)) {
+    files.forEach((file) => {
+      const croppedFileName = cropFileName(file.name);
+
+      if (!checkFileType(file)) return addMessage(`${croppedFileName} ist keine PDF-Datei.`);
+
+      if (!checkFileSize(file)) return addMessage(`${croppedFileName} ist zu groß.`);
+
+      if (!fileExists(file, state.files)) {
         const customFileObj = {
           id: uuid(),
-          croppedName: cropFileName(file.name),
+          croppedName: croppedFileName,
           template: "",
           loading: false,
           converted: false,
@@ -67,6 +75,8 @@ export default function FileProvider({ children }: ProviderProps) {
           type: ADD_FILE,
           payload: customFileObj,
         });
+      } else {
+        addMessage(`${croppedFileName} wurde bereits hochgeladen.`);
       }
     });
   }
@@ -95,17 +105,6 @@ export default function FileProvider({ children }: ProviderProps) {
     });
   }
 
-  function fileExists(file: File) {
-    return state.files.find(
-      (f) => f.file.lastModified === file.lastModified && f.file.name === file.name
-    );
-  }
-
-  function checkFileForProperties(file: File) {
-    const fileSizeInMb = file.size / 1024 / 1024;
-    return file.type === FILE_TYPE && fileSizeInMb <= MAX_FILE_SIZE_MB;
-  }
-
   const contextValue = {
     addedFiles: state.files,
     addFiles,
@@ -115,4 +114,17 @@ export default function FileProvider({ children }: ProviderProps) {
   };
 
   return <FileContext.Provider value={contextValue}>{children}</FileContext.Provider>;
+}
+
+function fileExists(file: File, files: IFile[]) {
+  return files.find((f) => f.file.lastModified === file.lastModified && f.file.name === file.name);
+}
+
+function checkFileSize(file: File) {
+  const fileSizeInMb = file.size / 1024 / 1024;
+  return fileSizeInMb <= MAX_FILE_SIZE_MB;
+}
+
+function checkFileType(file: File) {
+  return file.type === FILE_TYPE;
 }

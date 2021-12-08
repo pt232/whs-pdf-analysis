@@ -1,5 +1,5 @@
 import { IFile } from "./FileProvider";
-import { ADD_FILE, ADD_TEMPLATE, ADD_TEMPLATES, REMOVE_FILE } from "./types";
+import { ADD_FILE, ADD_TEMPLATE, ADD_TEMPLATES, REMOVE_FILE } from "../types";
 
 type State = {
   files: IFile[];

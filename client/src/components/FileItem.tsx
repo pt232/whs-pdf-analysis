@@ -1,6 +1,6 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFilePdf } from "@fortawesome/free-regular-svg-icons";
-import { IFile } from "../context/FileProvider";
+import { IFile } from "../context/file/FileProvider";
 import Badge from "./Badge";
 import RemoveButton from "./RemoveButton";
 import TemplateSelector from "./TemplateSelector";

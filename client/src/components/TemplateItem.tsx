@@ -1,4 +1,4 @@
-import { useFiles } from "../context/FileProvider";
+import { useFiles } from "../context/file/FileProvider";
 
 type TemplateItemProps = {
   fileId?: string;

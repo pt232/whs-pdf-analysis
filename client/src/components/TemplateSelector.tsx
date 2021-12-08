@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { ChevronDownIcon } from "@heroicons/react/solid";
-import { useFiles } from "../context/FileProvider";
+import { useFiles } from "../context/file/FileProvider";
 import { useClickedOutside } from "../hooks/useClickedOutside";
 import { TemplateList } from "./TemplateList";
 

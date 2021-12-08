@@ -1,6 +1,6 @@
 import { DocumentSearchIcon, PlusSmIcon } from "@heroicons/react/outline";
 import { useRef } from "react";
-import { useFiles } from "../context/FileProvider";
+import { useFiles } from "../context/file/FileProvider";
 import { fileListToArray } from "../utils/listToArray";
 
 type UploadButtonProps = {
@@ -34,8 +34,8 @@ export default function UploadButton({ isFileAddedState, text }: UploadButtonPro
           </>
         ) : (
           <>
-            <span className="inline-block mr-8">{text}</span>
-            <DocumentSearchIcon className="h-7 w-7" />
+            <span className="inline-block mr-4 sm:mr-8">{text}</span>
+            <DocumentSearchIcon className="h-6 w-6" />
           </>
         )}
       </button>

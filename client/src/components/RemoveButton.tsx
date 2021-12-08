@@ -1,5 +1,5 @@
 import { XIcon } from "@heroicons/react/solid";
-import { useFiles } from "../context/FileProvider";
+import { useFiles } from "../context/file/FileProvider";
 
 type RemoveButtonProps = {
   fileId: string;
