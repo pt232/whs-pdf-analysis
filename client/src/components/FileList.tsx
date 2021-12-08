@@ -18,8 +18,8 @@ export default function FileList({ files }: FileListProps) {
   }
 
   return (
-    <div>
-      <ul className="relative z-10">
+    <div className="w-full">
+      <ul className="relative w-full z-10">
         {files.map((file) => {
           return <FileItem key={file.id} file={file} />;
         })}

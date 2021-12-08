@@ -13,7 +13,7 @@ export default function HomePage() {
   return (
     <Wrapper>
       {addedFiles.length > 0 ? (
-        <div className="shadow-2xl my-10">
+        <div className="my-10 w-full shadow-2xl">
           <FileList files={addedFiles} />
           <DropBar />
         </div>
