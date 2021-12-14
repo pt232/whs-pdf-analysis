@@ -2,4 +2,6 @@
 
 build
 
+public/uploads
+
 .env

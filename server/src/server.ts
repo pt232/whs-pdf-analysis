@@ -10,7 +10,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(
   cors({
-    origin: `http://:${config.clientHostname}:${config.clientPort}`,
+    origin: `http://${config.clientHostname}:${config.clientPort}`,
     methods: ["GET", "POST"],
   })
 );
@@ -26,7 +26,5 @@ app.use((req: Request, res: Response) => {
 });
 
 app.listen(config.serverPort, () =>
-  console.log(
-    `Server is running on ${config.serverHostname}:${config.serverPort}`
-  )
+  console.log(`Server is running on ${config.serverHostname}:${config.serverPort}`)
 );

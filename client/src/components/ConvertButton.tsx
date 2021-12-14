@@ -1,6 +1,8 @@
 import { ArrowRightIcon } from "@heroicons/react/solid";
 import { IFile, useFiles } from "../context/file/FileProvider";
 import { useErrorMessage } from "../context/message/ErrorMessageProvider";
+import { buildFormDataFromObjects } from "../utils/buildFormData";
+import { post } from "../utils/rest";
 
 type ConvertButtonProps = {
   text: string;
@@ -10,10 +12,19 @@ export default function ConvertButton({ text }: ConvertButtonProps) {
   const { addedFiles } = useFiles();
   const { addMessage, removeMessage } = useErrorMessage();
 
-  function handleClick() {
+  async function handleClick() {
     removeMessage();
 
     if (!checkForTemplates(addedFiles)) return addMessage("Nicht alle Dateien haben eine Vorlage.");
+
+    try {
+      addedFiles.forEach((f) => {
+        const formData = buildFormDataFromObjects(f);
+        post("upload", formData);
+      });
+    } catch (err) {
+      addMessage("Beim Upload ist etwas schief gelaufen.");
+    }
   }
 
   function checkForTemplates(files: IFile[]) {
