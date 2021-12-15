@@ -6,11 +6,17 @@ export async function post(endpoint: string, bodyData: FormData) {
     : endpoint;
 
   try {
-    await axios.post(`${process.env.REACT_APP_SERVER_HOST + "/" + fittingEndpoint}`, bodyData, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    });
+    const { status, data } = await axios.post(
+      `${process.env.REACT_APP_SERVER_HOST + "/" + fittingEndpoint}`,
+      bodyData,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      }
+    );
+
+    return { status, data };
   } catch (err) {
     throw err;
   }

@@ -20,7 +20,7 @@ export default function FileItem({ file }: FileItemProps) {
         <span className="text-thenex-gray text-sm">als</span>
         <TemplateSelector fileId={file.id} />
       </div>
-      <Badge text="Fertig" loading={false} />
+      <Badge text={file.loading ? "Lädt" : "Fertig"} loading={file.loading} />
       <div className="-ml-8 md:ml-0 md:justify-self-center text-thenex-gray text-sm">
         {file.calculatedSize}
       </div>

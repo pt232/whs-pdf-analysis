@@ -1,7 +1,15 @@
 import { IFile } from "./FileProvider";
-import { ADD_FILE, ADD_TEMPLATE, ADD_TEMPLATES, REMOVE_FILE } from "../types";
+import {
+  ADD_FILE,
+  ADD_TEMPLATE,
+  ADD_TEMPLATES,
+  REMOVE_FILE,
+  SET_FILE_LOADING,
+  SET_LOADING,
+} from "../types";
 
 type State = {
+  loading: boolean;
   files: IFile[];
 };
 
@@ -33,7 +41,23 @@ type RemoveFile = {
   readonly payload: string;
 };
 
-type Action = GetFile | AddFile | AddTemplate | AddTemplates | RemoveFile;
+type SetFileLoading = {
+  readonly type: "SET_FILE_LOADING";
+  readonly payload: string;
+};
+
+type SetLoading = {
+  readonly type: "SET_LOADING";
+};
+
+type Action =
+  | GetFile
+  | AddFile
+  | AddTemplate
+  | AddTemplates
+  | RemoveFile
+  | SetFileLoading
+  | SetLoading;
 
 export function fileReducer(state: State, action: Action): State {
   switch (action.type) {
@@ -60,6 +84,21 @@ export function fileReducer(state: State, action: Action): State {
       return {
         ...state,
         files: state.files.filter((f) => f.id !== action.payload),
+      };
+    case SET_FILE_LOADING:
+      return {
+        ...state,
+        files: state.files.map((f) => {
+          if (f.id === action.payload) {
+            return { ...f, loading: true };
+          }
+          return f;
+        }),
+      };
+    case SET_LOADING:
+      return {
+        ...state,
+        loading: true,
       };
     default:
       return state;

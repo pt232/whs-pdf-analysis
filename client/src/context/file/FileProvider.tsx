@@ -4,7 +4,16 @@ import { useErrorMessage } from "../message/ErrorMessageProvider";
 import { calculateFileSize } from "../../utils/calculateFileSize";
 import { cropFileName } from "../../utils/cropFileName";
 import { fileReducer } from "./fileReducer";
-import { ADD_FILE, ADD_TEMPLATE, ADD_TEMPLATES, REMOVE_FILE } from "../types";
+import {
+  ADD_FILE,
+  ADD_TEMPLATE,
+  ADD_TEMPLATES,
+  REMOVE_FILE,
+  SET_FILE_LOADING,
+  SET_LOADING,
+} from "../types";
+import { buildFormDataFromObjects } from "../../utils/buildFormData";
+import { post } from "../../utils/rest";
 
 export interface IFile {
   id: string;
@@ -17,7 +26,9 @@ export interface IFile {
 }
 
 type ContextProps = {
+  loading: boolean;
   addedFiles: IFile[];
+  uploadFiles: () => Promise<boolean>;
   addFiles: (files: File[]) => void;
   addTemplate: (fileId: string, template: string) => void;
   addTemplates: (template: string) => void;
@@ -31,7 +42,12 @@ type ProviderProps = {
 const FILE_TYPE = "application/pdf";
 const MAX_FILE_SIZE_MB = 5;
 const FileContext = createContext<ContextProps>({
+  loading: false,
   addedFiles: [],
+  uploadFiles: () =>
+    new Promise((resolve, reject) => {
+      resolve(true);
+    }),
   addFiles: () => {},
   addTemplate: () => {},
   addTemplates: () => {},
@@ -45,8 +61,32 @@ export function useFiles() {
 export default function FileProvider({ children }: ProviderProps) {
   const { addMessage, removeMessage } = useErrorMessage();
   const [state, dispatch] = useReducer(fileReducer, {
+    loading: false,
     files: [],
   });
+
+  async function uploadFiles(): Promise<boolean> {
+    let statusCodes: number[] = [];
+
+    dispatch({ type: SET_LOADING });
+
+    await Promise.all(
+      state.files.map(async (f) => {
+        try {
+          const formData = buildFormDataFromObjects(f);
+          const { status } = await post("upload", formData);
+
+          statusCodes.push(status);
+
+          dispatch({ type: SET_FILE_LOADING, payload: f.id });
+        } catch {
+          addMessage("Beim Upload ist etwas schiefgelaufen.");
+        }
+      })
+    );
+
+    return statusCodes.every((sc) => sc === 200) && statusCodes.length === state.files.length;
+  }
 
   function addFiles(files: File[]) {
     if (files.length === 0) return;
@@ -106,7 +146,9 @@ export default function FileProvider({ children }: ProviderProps) {
   }
 
   const contextValue = {
+    loading: state.loading,
     addedFiles: state.files,
+    uploadFiles,
     addFiles,
     addTemplate,
     addTemplates,
