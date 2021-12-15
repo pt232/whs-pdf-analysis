@@ -10,7 +10,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(
   cors({
-    origin: `http://${config.clientHostname}:${config.clientPort}`,
+    origin: config.clientHostname,
     methods: ["GET", "POST"],
   })
 );

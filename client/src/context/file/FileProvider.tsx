@@ -73,12 +73,12 @@ export default function FileProvider({ children }: ProviderProps) {
     await Promise.all(
       state.files.map(async (f) => {
         try {
+          dispatch({ type: SET_FILE_LOADING, payload: f.id });
+
           const formData = buildFormDataFromObjects(f);
           const { status } = await post("upload", formData);
 
           statusCodes.push(status);
-
-          dispatch({ type: SET_FILE_LOADING, payload: f.id });
         } catch {
           addMessage("Beim Upload ist etwas schiefgelaufen.");
         }
