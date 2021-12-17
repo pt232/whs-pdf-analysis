@@ -1,7 +1,7 @@
-import express, { Request, Response } from "express";
-import cors from "cors";
-import config from "./config/config";
-import uploadRouter from "./routes/upload.routes";
+const express = require("express");
+const cors = require("cors");
+const config = require("./config/config");
+const fileRouter = require("./routes/file.routes");
 
 const app = express();
 
@@ -15,13 +15,13 @@ app.use(
   })
 );
 
-app.get("/", (req: Request, res: Response) => {
+app.get("/", (req, res) => {
   res.status(200).json({ message: "Welcome to this API!" });
 });
 
-app.use("/upload", uploadRouter);
+app.use("/api/file", fileRouter);
 
-app.use((req: Request, res: Response) => {
+app.use((req, res) => {
   res.status(404).json({ message: "This route does not exist!" });
 });
 
