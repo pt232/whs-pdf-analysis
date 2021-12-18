@@ -1,3 +1,5 @@
+const { getFilteredItems } = require("../services/pdfParser");
+
 const fileObjects = [];
 
 function uploadFile(req, res) {
@@ -16,7 +18,7 @@ function uploadFile(req, res) {
   return res.status(200).send("Uploaded Files");
 }
 
-function convertFiles(req, res) {
+async function convertFiles(req, res) {
   const { id } = req.params;
 
   if (id == null) return res.status(401).send("No ID was provided");
@@ -26,7 +28,14 @@ function convertFiles(req, res) {
 
   if (fileToBeConverted == null) return res.status(401).send("The file could not be found.");
 
-  return res.status(200).send("Converted Files");
+  try {
+    const filteredItems = await getFilteredItems(
+      fileToBeConverted.file.destination + fileToBeConverted.file.filename
+    );
+    return res.status(200).json(filteredItems);
+  } catch (err) {
+    return res.status(500).send(err.message);
+  }
 }
 
 function downloadFile(req, res) {

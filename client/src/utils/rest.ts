@@ -7,7 +7,7 @@ export async function post(endpoint: string, bodyData: FormData) {
 
   try {
     const { status, data } = await axios.post(
-      `${process.env.REACT_APP_SERVER_HOST + "/" + fittingEndpoint}`,
+      `${process.env.REACT_APP_SERVER_HOST + "/api/file/" + fittingEndpoint}`,
       bodyData,
       {
         headers: {

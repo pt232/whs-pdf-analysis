@@ -76,7 +76,7 @@ export default function FileProvider({ children }: ProviderProps) {
           dispatch({ type: SET_FILE_LOADING, payload: f.id });
 
           const formData = buildFormDataFromObjects(f);
-          const { status } = await post("api/file/upload", formData);
+          const { status } = await post("upload", formData);
 
           statusCodes.push(status);
         } catch {
