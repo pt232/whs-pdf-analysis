@@ -10,7 +10,9 @@ function findCustomerProductNo(items) {
 
 function findProductTitle(items) {
   const indicatorIndex = items.findIndex((item) => item.toUpperCase() === "POSITIONSLANGTEXT:");
-  if (indicatorIndex >= 0) return items[indicatorIndex + 1];
+  if (indicatorIndex >= 0) {
+    return items[indicatorIndex + 1].replace(":", "");
+  }
   return "";
 }
 
@@ -33,24 +35,26 @@ function getDataWithSabic(items) {
   if (!checkDocument(items)) throw new Error("Das Dokument passt nicht zur gewählten Vorlage.");
 
   return [
-    { "KdArt.Nr:Preis (nicht anfassen)": "" },
-    { "Länge (kein Import)": "" },
-    { Kundenpreis: "" },
-    { "Einheit EINFÜGEN AB HIER": "" },
-    { "Kundenartikelnummer (kein Import)": findCustomerProductNo(items) },
-    { "thenex Artikelnummer": "" },
-    { Bezeichnung: findProductTitle(items) },
-    { Beschreibung: findProductDescription(items) },
-    { "Gewicht netto": "" },
-    { Zolltarifnummer: "" },
-    { Ursprungsland: "" },
-    { Hersteller: "" },
-    { Lieferant: "" },
-    { "FT06 Poti": "" },
-    { "FT15 Hersteller P/N": "" },
-    { "FT16 Dual Use": "" },
-    { "EK Stück": findProductQuantity(items) },
-    { "EK Währung": "" },
+    {
+      "KdArt.Nr:Preis (nicht anfassen)": "",
+      "Länge (kein Import)": "",
+      Kundenpreis: "",
+      "Einheit EINFÜGEN AB HIER": "",
+      "Kundenartikelnummer (kein Import)": findCustomerProductNo(items),
+      "thenex Artikelnummer": "",
+      Bezeichnung: findProductTitle(items),
+      Beschreibung: findProductDescription(items),
+      "Gewicht netto": "",
+      Zolltarifnummer: "",
+      Ursprungsland: "",
+      Hersteller: "",
+      Lieferant: "",
+      "FT06 Poti": "",
+      "FT15 Hersteller P/N": "",
+      "FT16 Dual Use": "",
+      "EK Stück": findProductQuantity(items),
+      "EK Währung": "",
+    },
   ];
 }
 

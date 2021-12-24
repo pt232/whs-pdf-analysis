@@ -3,5 +3,6 @@
 build
 
 public/uploads
+public/downloads
 
 .env

@@ -1,4 +1,5 @@
 const { getFilteredItems, getDataByTemplate } = require("../services/pdfParser");
+const { writeToSheet } = require("../services/sheetWriter");
 
 const fileObjects = [];
 
@@ -28,11 +29,13 @@ async function convertFiles(req, res) {
       const filteredItems = await getFilteredItems(
         fileToBeConverted.file.destination + fileToBeConverted.file.filename
       );
+      const rowData = getDataByTemplate(fileToBeConverted.template, filteredItems);
 
-      console.log(getDataByTemplate(fileToBeConverted.template, filteredItems));
-      return res.status(200).json(filteredItems);
+      const sheetFileName = writeToSheet(rowData);
+
+      return res.status(200).json(sheetFileName);
     } catch (err) {
-      return res.status(500).send(err.message);
+      return res.status(500).send(`${fileToBeConverted.file.filename} : ${err.message}`);
     }
   }
 }
