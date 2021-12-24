@@ -22,16 +22,18 @@ function uploadFile(req, res) {
 async function convertFiles(req, res) {
   if (fileObjects.length === 0) return res.status(401).send("No files were available.");
 
-  for (const fileToBeConverted of fileObjects) {
+  for (let i = 0; i < fileObjects.length; i++) {
+    const fileToBeConverted = fileObjects[i];
+
     if (fileToBeConverted == null) return res.status(401).send("The file could not be found.");
 
     try {
       const filteredItems = await getFilteredItems(
         fileToBeConverted.file.destination + fileToBeConverted.file.filename
       );
-      const rowData = getDataByTemplate(fileToBeConverted.template, filteredItems);
+      const rowData = getDataByTemplate(fileToBeConverted.template, filteredItems, i);
 
-      const sheetFileName = writeToSheet(rowData);
+      const sheetFileName = await writeToSheet(rowData);
 
       return res.status(200).json(sheetFileName);
     } catch (err) {

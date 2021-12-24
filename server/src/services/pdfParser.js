@@ -17,10 +17,10 @@ async function getFilteredItems(src) {
   return items.filter((item) => item != null && item !== "");
 }
 
-function getDataByTemplate(template, items) {
+function getDataByTemplate(template, items, index) {
   switch (template) {
     case "Sabic":
-      return getDataWithSabic(items);
+      return getDataWithSabic(items, index);
     default:
       throw new Error("Ein Template konnte nicht gefunden werden.");
   }
