@@ -1,4 +1,5 @@
 const pdfjs = require("pdfjs-dist/legacy/build/pdf");
+const { getDataWithSabic } = require("./templates/sabic");
 
 async function getContent(src) {
   const doc = await pdfjs.getDocument(src).promise;
@@ -16,4 +17,13 @@ async function getFilteredItems(src) {
   return items.filter((item) => item != null && item !== "");
 }
 
-module.exports = { getFilteredItems };
+function getDataByTemplate(template, items) {
+  switch (template) {
+    case "Sabic":
+      return getDataWithSabic(items);
+    default:
+      throw new Error("Ein Template konnte nicht gefunden werden.");
+  }
+}
+
+module.exports = { getFilteredItems, getDataByTemplate };

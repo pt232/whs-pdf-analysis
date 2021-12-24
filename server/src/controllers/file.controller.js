@@ -1,4 +1,4 @@
-const { getFilteredItems } = require("../services/pdfParser");
+const { getFilteredItems, getDataByTemplate } = require("../services/pdfParser");
 
 const fileObjects = [];
 
@@ -19,22 +19,21 @@ function uploadFile(req, res) {
 }
 
 async function convertFiles(req, res) {
-  const { id } = req.params;
-
-  if (id == null) return res.status(401).send("No ID was provided");
   if (fileObjects.length === 0) return res.status(401).send("No files were available.");
 
-  const fileToBeConverted = fileObjects.find((f) => f.id === id);
+  for (const fileToBeConverted of fileObjects) {
+    if (fileToBeConverted == null) return res.status(401).send("The file could not be found.");
 
-  if (fileToBeConverted == null) return res.status(401).send("The file could not be found.");
+    try {
+      const filteredItems = await getFilteredItems(
+        fileToBeConverted.file.destination + fileToBeConverted.file.filename
+      );
 
-  try {
-    const filteredItems = await getFilteredItems(
-      fileToBeConverted.file.destination + fileToBeConverted.file.filename
-    );
-    return res.status(200).json(filteredItems);
-  } catch (err) {
-    return res.status(500).send(err.message);
+      console.log(getDataByTemplate(fileToBeConverted.template, filteredItems));
+      return res.status(200).json(filteredItems);
+    } catch (err) {
+      return res.status(500).send(err.message);
+    }
   }
 }
 
