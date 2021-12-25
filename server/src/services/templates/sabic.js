@@ -27,37 +27,30 @@ function findProductDescription(items) {
 
 function findProductQuantity(items) {
   const indicatorIndex = items.findIndex((item) => item.toUpperCase() === "UOM");
-  if (indicatorIndex >= 0) return items[indicatorIndex + 7];
+  if (indicatorIndex >= 0) return parseInt(items[indicatorIndex + 7]);
   return "";
 }
 
-function getDataWithSabic(items, index) {
-  const rowNumber = index + 2;
-
+function getDataWithSabic(items) {
   if (!checkDocument(items)) throw new Error("Das Dokument passt nicht zur gewählten Vorlage.");
 
-  return [
-    {
-      custProdNoPrice: `=E${rowNumber}&":"&C${rowNumber}`,
-      charLength: `=LÄNGE(G${rowNumber})`,
-      customerPrice: `=Q${rowNumber}*1,42`,
-      reminder: "",
-      customerProductNo: findCustomerProductNo(items),
-      thenexProductNo: "",
-      title: findProductTitle(items),
-      description: findProductDescription(items),
-      weightNet: "",
-      tariffNo: "",
-      originCountry: "",
-      manufacturer: "",
-      supplier: "",
-      poti: "",
-      supplierPN: "",
-      dualUse: "",
-      amount: findProductQuantity(items),
-      currency: "",
-    },
-  ];
+  return {
+    reminder: "",
+    customerProductNo: findCustomerProductNo(items),
+    thenexProductNo: "",
+    title: findProductTitle(items),
+    description: findProductDescription(items),
+    weightNet: "",
+    tariffNo: "",
+    originCountry: "",
+    manufacturer: "",
+    supplier: "",
+    poti: "",
+    supplierPN: "",
+    dualUse: "",
+    amount: findProductQuantity(items),
+    currency: "",
+  };
 }
 
 module.exports = { getDataWithSabic };

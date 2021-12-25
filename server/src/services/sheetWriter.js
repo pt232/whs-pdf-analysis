@@ -5,6 +5,7 @@ async function writeToSheet(rowData) {
   const id = Date.now();
   const filePath = "./public/downloads/";
   const fileName = `${id} - Thenex Importvorlage.xlsx`;
+  const startingRow = 2;
 
   workbook.creator = "Thenex";
   workbook.lastModifiedBy = "Thenex";
@@ -32,6 +33,12 @@ async function writeToSheet(rowData) {
   ];
 
   worksheet.addRows(rowData);
+
+  for (let rowNumber = startingRow; rowNumber <= rowData.length + 1; rowNumber++) {
+    worksheet.getCell(`A${rowNumber}`).value = { formula: `=E${rowNumber}&":"&C${rowNumber}` };
+    worksheet.getCell(`B${rowNumber}`).value = { formula: `=LEN(G${rowNumber})` };
+    worksheet.getCell(`C${rowNumber}`).value = { formula: `=Q${rowNumber}*1.42` };
+  }
 
   await workbook.xlsx.writeFile(filePath + fileName).catch(() => {
     throw new Error("Beim Erstellen der Excel-Datei ist etwas schiefgelaufen.");

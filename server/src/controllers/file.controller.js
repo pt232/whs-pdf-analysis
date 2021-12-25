@@ -20,25 +20,27 @@ function uploadFile(req, res) {
 }
 
 async function convertFiles(req, res) {
+  const rowData = [];
+  let fileToBeConverted = null;
+
   if (fileObjects.length === 0) return res.status(401).send("No files were available.");
 
-  for (let i = 0; i < fileObjects.length; i++) {
-    const fileToBeConverted = fileObjects[i];
+  try {
+    for (fileToBeConverted of fileObjects) {
+      if (fileToBeConverted == null) return res.status(401).send("The file could not be found.");
 
-    if (fileToBeConverted == null) return res.status(401).send("The file could not be found.");
-
-    try {
       const filteredItems = await getFilteredItems(
         fileToBeConverted.file.destination + fileToBeConverted.file.filename
       );
-      const rowData = getDataByTemplate(fileToBeConverted.template, filteredItems, i);
 
-      const sheetFileName = await writeToSheet(rowData);
-
-      return res.status(200).json(sheetFileName);
-    } catch (err) {
-      return res.status(500).send(`${fileToBeConverted.file.filename} : ${err.message}`);
+      rowData.push(getDataByTemplate(fileToBeConverted.template, filteredItems));
     }
+
+    const sheetFileName = await writeToSheet(rowData);
+
+    return res.status(200).json(sheetFileName);
+  } catch (err) {
+    return res.status(500).send(`${fileToBeConverted.file.filename} : ${err.message}`);
   }
 }
 
