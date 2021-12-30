@@ -34,7 +34,7 @@ export interface IExcelFile extends IFile {
 }
 
 type ExcelFile = {
-  id: number;
+  id: string;
   fileName: string;
 };
 
@@ -63,7 +63,7 @@ const defaultExcelFile = {
   loading: true,
   calculatedSize: "7 KB",
   file: {
-    id: 1,
+    id: "",
     fileName: "Thenex Importvorlage.xlsx",
   },
 };

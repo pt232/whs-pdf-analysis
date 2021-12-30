@@ -23,7 +23,7 @@ export default function DownloadPage() {
   return (
     <Layout>
       <div className="w-full my-10 shadow-2xl">
-        <FileItem key={excelFile.id} type="excel" file={excelFile} />
+        <FileItem key={excelFile.id} type="excel" file={excelFile} excelFile={excelFile} />
         <DropBar type="excel" />
       </div>
     </Layout>

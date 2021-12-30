@@ -1,9 +1,10 @@
 const ExcelJS = require("exceljs");
+const { v4: uuid } = require("uuid");
 const { getFileSizeInBytes } = require("../utils/fileSizeInBytes");
 
 async function writeToSheet(rowData) {
   const workbook = new ExcelJS.Workbook();
-  const id = Date.now();
+  const id = uuid();
   const filePath = "./public/downloads/";
   const fileName = `${id} - Thenex Importvorlage.xlsx`;
   const startingRow = 2;

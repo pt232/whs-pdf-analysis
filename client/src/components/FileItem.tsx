@@ -9,9 +9,10 @@ import DownloadButton from "./DownloadButton";
 type FileItemProps = {
   type?: "excel";
   file: IDocumentFile | IExcelFile;
+  excelFile?: IExcelFile;
 };
 
-export default function FileItem({ type, file }: FileItemProps) {
+export default function FileItem({ type, file, excelFile }: FileItemProps) {
   function getBadgeText() {
     if (type === "excel" && file.loading) return "Konvertiert";
     if (type === "excel" && !file.loading) return "Beendet";
@@ -51,7 +52,7 @@ export default function FileItem({ type, file }: FileItemProps) {
         {file.calculatedSize}
       </div>
       {type === "excel" ? (
-        <DownloadButton loading={file.loading} />
+        <DownloadButton fileId={excelFile?.file.id} loading={file.loading} />
       ) : (
         <RemoveButton fileId={file.id} />
       )}

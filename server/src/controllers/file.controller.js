@@ -1,3 +1,6 @@
+const path = require("path");
+const fs = require("fs");
+const validator = require("validator");
 const { getFilteredItems, getDataByTemplate } = require("../services/pdfParser");
 const { writeToSheet } = require("../services/sheetWriter");
 
@@ -46,7 +49,22 @@ async function convertFiles(req, res) {
 
 function downloadFile(req, res) {
   const { id } = req.params;
-  res.status(200).send(`Downloaded file with the ID: ${id}`);
+  const filePath = path.join(__dirname, "../../public/downloads/");
+
+  if (!validator.isUUID(id, 4))
+    return res
+      .status(401)
+      .send("Die übergebene ID stimmt nicht mit dem erwarteten Muster überein.");
+
+  try {
+    const fileNames = fs.readdirSync(filePath);
+    const targetFile = fileNames.find((fileName) => fileName.includes(id));
+
+    if (targetFile) return res.download(filePath + targetFile, targetFile);
+    else return res.status(500).send("Es konnte keine Datei heruntergeladen werden.");
+  } catch (err) {
+    return res.status(500).send(err.message);
+  }
 }
 
 module.exports = {
