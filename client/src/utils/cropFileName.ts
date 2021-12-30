@@ -1,10 +1,15 @@
 const MAX_FILENAME_LENGTH = 20;
 
-export function cropFileName(fileName: string): string {
+export function cropFileName(fileName: string, extLength: number): string {
   if (fileName.length <= MAX_FILENAME_LENGTH) return fileName;
 
-  const fileNameWithoutExt = fileName.slice(0, -4);
+  const fileNameWithoutExt = fileName.slice(0, -(extLength + 1));
   const fileExt = fileName.split(".").pop();
+  const fileNameStart = fileNameWithoutExt.substring(0, 7);
+  const fileNameEnd = fileNameWithoutExt.substring(
+    fileNameWithoutExt.length - 7,
+    fileNameWithoutExt.length
+  );
 
-  return fileNameWithoutExt.substr(0, MAX_FILENAME_LENGTH) + "..." + fileExt;
+  return fileNameStart + "..." + fileNameEnd + "." + fileExt;
 }

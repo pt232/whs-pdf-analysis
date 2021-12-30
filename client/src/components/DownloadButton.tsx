@@ -5,6 +5,7 @@ type DownloadButtonProps = {
 
 export default function DownloadButton({ fileId, loading }: DownloadButtonProps) {
   function handleClick() {
+    if (loading) return;
     window.open(process.env.REACT_APP_SERVER_HOST + "/api/file/download/" + fileId);
   }
 

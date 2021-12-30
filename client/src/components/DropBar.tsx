@@ -16,7 +16,7 @@ export default function DropBar({ type }: DropBarProps) {
         <UploadButton
           isFileAddedState={true}
           text={type === "excel" ? "Weitere Dateien konvertieren" : "Füge mehr Dateien hinzu"}
-          type="excel"
+          type={type}
         />
         {type !== "excel" ? (
           <p className="ml-4 text-thenex-gray text-sm hidden md:block">oder Dateien hier ablegen</p>

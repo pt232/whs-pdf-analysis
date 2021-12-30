@@ -130,7 +130,7 @@ export default function FileProvider({ children }: ProviderProps) {
     removeMessage();
 
     files.forEach((file) => {
-      const croppedFileName = cropFileName(file.name);
+      const croppedFileName = cropFileName(file.name, 3);
 
       if (!checkFileType(file)) return addMessage(`${croppedFileName} ist keine PDF-Datei.`);
 
@@ -194,7 +194,7 @@ export default function FileProvider({ children }: ProviderProps) {
       payload: {
         id: uuid(),
         name: data.fileName,
-        croppedName: cropFileName(data.fileName),
+        croppedName: cropFileName(data.fileName, 4),
         loading: false,
         calculatedSize: calculateFileSize(data.fileSize),
         file: data,
