@@ -1,5 +1,6 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFilePdf, faFileExcel } from "@fortawesome/free-regular-svg-icons";
+import { faSyncAlt } from "@fortawesome/free-solid-svg-icons";
 import { IDocumentFile, IExcelFile } from "../context/file/FileProvider";
 import Badge from "./Badge";
 import RemoveButton from "./RemoveButton";
@@ -29,7 +30,7 @@ export default function FileItem({ type, file, excelFile }: FileItemProps) {
       <div className="flex justify-start items-center col-span-2 md:col-span-1 md:col-start-1">
         <FontAwesomeIcon
           icon={type !== "excel" ? faFilePdf : faFileExcel}
-          className={`text-xl ${type !== "excel" ? "text-red-500" : "text-green-600"}`}
+          className={`text-xl ${type !== "excel" ? "text-red-500" : "text-green-700"}`}
         />
         <span className="inline-block ml-3 text-thenex-gray-dark text-sm">{file.croppedName}</span>
       </div>
@@ -39,15 +40,27 @@ export default function FileItem({ type, file, excelFile }: FileItemProps) {
           <TemplateSelector fileId={file.id} />
         </div>
       ) : null}
-      <Badge
-        text={getBadgeText()}
-        loading={file.loading}
-        finished={!file.loading && type === "excel"}
-      />
+      <div
+        className={`flex items-center ${
+          type === "excel" ? "md:col-start-2" : "md:col-start-3"
+        } md:row-start-1 md:justify-self-center`}
+      >
+        <Badge
+          text={getBadgeText()}
+          loading={file.loading}
+          finished={!file.loading && type === "excel"}
+        />
+        {type === "excel" && file.loading ? (
+          <FontAwesomeIcon
+            icon={faSyncAlt}
+            className="ml-3 text-sm text-thenex-gray animate-spin-slow"
+          />
+        ) : null}
+      </div>
       <div
         className={`${
-          type === "excel" ? "ml-0" : "-ml-8"
-        } md:ml-0 md:justify-self-center text-thenex-gray text-sm`}
+          type === "excel" ? "col-start-3" : "col-start-2 md:col-start-4"
+        } md:justify-self-center text-thenex-gray text-sm`}
       >
         {file.calculatedSize}
       </div>

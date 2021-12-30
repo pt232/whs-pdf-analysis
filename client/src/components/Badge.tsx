@@ -12,9 +12,7 @@ export default function Badge({ text, loading, finished }: BadgeProps) {
   return (
     <div
       className={`flex justify-center items-center w-min px-1 text-xs uppercase whitespace-nowrap
-       border rounded-sm md:col-start-3 md:row-start-1 md:justify-self-center  ${
-         loading ? "text-yellow-500 border-yellow-500" : getBadgeColor()
-       }`}
+       border rounded-sm ${loading ? "text-yellow-500 border-yellow-500" : getBadgeColor()}`}
     >
       {text}
     </div>

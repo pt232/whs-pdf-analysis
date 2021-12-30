@@ -19,6 +19,9 @@ module.exports = {
       backgroundImage: {
         "dropzone-pattern": "url('/src/images/pattern.png')",
       },
+      animation: {
+        "spin-slow": "spin 2s linear infinite",
+      },
     },
   },
   variants: {

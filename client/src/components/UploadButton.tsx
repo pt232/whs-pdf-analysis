@@ -12,10 +12,11 @@ type UploadButtonProps = {
 
 export default function UploadButton({ isFileAddedState, text, type }: UploadButtonProps) {
   const navigate = useNavigate();
-  const { addDocumentFiles } = useFiles();
+  const { loading, addDocumentFiles } = useFiles();
   const inputEl = useRef<HTMLInputElement>(null);
 
   function handleClick() {
+    if (loading) return;
     if (type === "excel") return navigate("/");
     inputEl.current?.click();
   }
@@ -29,7 +30,9 @@ export default function UploadButton({ isFileAddedState, text, type }: UploadBut
     <>
       <button
         onClick={handleClick}
-        className={`${isFileAddedState ? "btn--files" : "btn--default"}`}
+        className={`${isFileAddedState ? "btn--files" : "btn--default"} ${
+          loading ? "cursor-not-allowed opacity-40" : ""
+        }`}
       >
         {isFileAddedState ? (
           <>
