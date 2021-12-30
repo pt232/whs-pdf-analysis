@@ -36,9 +36,9 @@ async function convertFiles(req, res) {
       rowData.push(getDataByTemplate(fileToBeConverted.template, filteredItems));
     }
 
-    const sheetFileName = await writeToSheet(rowData);
+    const sheetFileData = await writeToSheet(rowData);
 
-    return res.status(200).json(sheetFileName);
+    return res.status(200).json(sheetFileData);
   } catch (err) {
     return res.status(500).send(`${fileToBeConverted.file.filename} : ${err.message}`);
   }

@@ -7,14 +7,14 @@ import { useFiles } from "../context/file/FileProvider";
 import useDrag from "../hooks/useDrag";
 
 export default function HomePage() {
-  const { addedFiles } = useFiles();
+  const { documentFiles } = useFiles();
   const isDragging = useDrag();
 
   return (
     <Layout>
-      {addedFiles.length > 0 ? (
+      {documentFiles.length > 0 ? (
         <div className="my-10 w-full shadow-2xl">
-          <FileList files={addedFiles} />
+          <FileList files={documentFiles} />
           <DropBar />
         </div>
       ) : (

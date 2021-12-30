@@ -1,4 +1,5 @@
 const ExcelJS = require("exceljs");
+const { getFileSizeInBytes } = require("../utils/fileSizeInBytes");
 
 async function writeToSheet(rowData) {
   const workbook = new ExcelJS.Workbook();
@@ -47,6 +48,7 @@ async function writeToSheet(rowData) {
   return {
     id,
     fileName,
+    fileSize: getFileSizeInBytes(fileName),
   };
 }
 

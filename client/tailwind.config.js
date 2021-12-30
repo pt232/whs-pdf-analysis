@@ -8,6 +8,7 @@ module.exports = {
       colors: {
         "thenex-blue": "#1268b0",
         "thenex-gray": {
+          light: "#cacaca",
           DEFAULT: "#959595",
           dark: "#333333",
         },

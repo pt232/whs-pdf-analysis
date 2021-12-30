@@ -3,7 +3,7 @@ import { useFiles } from "../context/file/FileProvider";
 import { fileListToArray } from "../utils/listToArray";
 
 export default function useDrag(): boolean {
-  const { addFiles } = useFiles();
+  const { addDocumentFiles } = useFiles();
   const [isDragging, setIsDragging] = useState(false);
   const dragCounter = useRef(0);
 
@@ -22,7 +22,7 @@ export default function useDrag(): boolean {
     const files = e.dataTransfer?.files;
 
     if (files && files.length > 0) {
-      addFiles(fileListToArray(files));
+      addDocumentFiles(fileListToArray(files));
     }
 
     e.dataTransfer?.clearData();

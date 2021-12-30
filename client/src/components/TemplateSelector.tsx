@@ -10,14 +10,14 @@ type TemplateSelectorProps = {
 
 export default function TemplateSelector({ fileId }: TemplateSelectorProps) {
   const listElement = React.createRef<HTMLDivElement>();
-  const { addedFiles } = useFiles();
+  const { documentFiles } = useFiles();
   const [isListVisible, setIsListVisible] = useClickedOutside(listElement);
   const [templateName, setTemplateName] = useState("...");
 
   useEffect(() => {
-    const targetFile = addedFiles.find((f) => f.id === fileId);
+    const targetFile = documentFiles.find((f) => f.id === fileId);
     if (targetFile?.template) setTemplateName(targetFile.template);
-  }, [addedFiles, fileId]);
+  }, [documentFiles, fileId]);
 
   return (
     <div

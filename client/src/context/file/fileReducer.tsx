@@ -1,16 +1,18 @@
-import { IFile } from "./FileProvider";
+import { IDocumentFile, IExcelFile } from "./FileProvider";
 import {
-  ADD_FILE,
+  ADD_DOCUMENT_FILE,
+  ADD_EXCEL_FILE,
   ADD_TEMPLATE,
   ADD_TEMPLATES,
-  REMOVE_FILE,
+  REMOVE_DOCUMENT_FILE,
   SET_FILE_LOADING,
   SET_LOADING,
 } from "../types";
 
 type State = {
   loading: boolean;
-  files: IFile[];
+  documentFiles: IDocumentFile[];
+  excelFile: IExcelFile;
 };
 
 type GetFile = {
@@ -18,9 +20,14 @@ type GetFile = {
   readonly payload: string;
 };
 
-type AddFile = {
-  readonly type: "ADD_FILE";
-  readonly payload: IFile;
+type AddDocumentFile = {
+  readonly type: "ADD_DOCUMENT_FILE";
+  readonly payload: IDocumentFile;
+};
+
+type AddExcelFile = {
+  readonly type: "ADD_EXCEL_FILE";
+  readonly payload: IExcelFile;
 };
 
 type AddTemplate = {
@@ -37,7 +44,7 @@ type AddTemplates = {
 };
 
 type RemoveFile = {
-  readonly type: "REMOVE_FILE";
+  readonly type: "REMOVE_DOCUMENT_FILE";
   readonly payload: string;
 };
 
@@ -48,11 +55,13 @@ type SetFileLoading = {
 
 type SetLoading = {
   readonly type: "SET_LOADING";
+  readonly payload: boolean;
 };
 
 type Action =
   | GetFile
-  | AddFile
+  | AddDocumentFile
+  | AddExcelFile
   | AddTemplate
   | AddTemplates
   | RemoveFile
@@ -61,12 +70,14 @@ type Action =
 
 export function fileReducer(state: State, action: Action): State {
   switch (action.type) {
-    case ADD_FILE:
-      return { ...state, files: [...state.files, action.payload] };
+    case ADD_DOCUMENT_FILE:
+      return { ...state, documentFiles: [...state.documentFiles, action.payload] };
+    case ADD_EXCEL_FILE:
+      return { ...state, loading: false, excelFile: action.payload };
     case ADD_TEMPLATE:
       return {
         ...state,
-        files: state.files.map((f) => {
+        documentFiles: state.documentFiles.map((f) => {
           if (f.id === action.payload.fileId) {
             return { ...f, template: action.payload.template };
           }
@@ -76,19 +87,19 @@ export function fileReducer(state: State, action: Action): State {
     case ADD_TEMPLATES:
       return {
         ...state,
-        files: state.files.map((f) => {
+        documentFiles: state.documentFiles.map((f) => {
           return { ...f, template: action.payload };
         }),
       };
-    case REMOVE_FILE:
+    case REMOVE_DOCUMENT_FILE:
       return {
         ...state,
-        files: state.files.filter((f) => f.id !== action.payload),
+        documentFiles: state.documentFiles.filter((f) => f.id !== action.payload),
       };
     case SET_FILE_LOADING:
       return {
         ...state,
-        files: state.files.map((f) => {
+        documentFiles: state.documentFiles.map((f) => {
           if (f.id === action.payload) {
             return { ...f, loading: true };
           }
@@ -98,7 +109,7 @@ export function fileReducer(state: State, action: Action): State {
     case SET_LOADING:
       return {
         ...state,
-        loading: true,
+        loading: action.payload,
       };
     default:
       return state;

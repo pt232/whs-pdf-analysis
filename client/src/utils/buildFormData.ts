@@ -1,6 +1,6 @@
-import { IFile } from "../context/file/FileProvider";
+import { IDocumentFile } from "../context/file/FileProvider";
 
-export function buildFormDataFromObjects(fileObj: IFile): FormData {
+export function buildFormDataFromObjects(fileObj: IDocumentFile): FormData {
   const formData = new FormData();
 
   formData.append("id", fileObj.id);

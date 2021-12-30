@@ -5,34 +5,49 @@ import { calculateFileSize } from "../../utils/calculateFileSize";
 import { cropFileName } from "../../utils/cropFileName";
 import { fileReducer } from "./fileReducer";
 import {
-  ADD_FILE,
+  ADD_DOCUMENT_FILE,
+  ADD_EXCEL_FILE,
   ADD_TEMPLATE,
   ADD_TEMPLATES,
-  REMOVE_FILE,
+  REMOVE_DOCUMENT_FILE,
   SET_FILE_LOADING,
   SET_LOADING,
 } from "../types";
 import { buildFormDataFromObjects } from "../../utils/buildFormData";
-import { post } from "../../utils/rest";
+import { get, post } from "../../utils/rest";
 
-export interface IFile {
+interface IFile {
   id: string;
+  name: string;
   croppedName: string;
-  template: string;
   loading: boolean;
-  converted: boolean;
   calculatedSize: string;
+}
+
+export interface IDocumentFile extends IFile {
+  template: string;
   file: File;
 }
 
+export interface IExcelFile extends IFile {
+  file: ExcelFile;
+}
+
+type ExcelFile = {
+  id: number;
+  fileName: string;
+};
+
 type ContextProps = {
   loading: boolean;
-  addedFiles: IFile[];
-  uploadFiles: () => Promise<boolean>;
-  addFiles: (files: File[]) => void;
+  documentFiles: IDocumentFile[];
+  excelFile: IExcelFile;
+  uploadDocumentFiles: () => Promise<boolean>;
+  addDocumentFiles: (files: File[]) => void;
   addTemplate: (fileId: string, template: string) => void;
   addTemplates: (template: string) => void;
   removeFile: (fileId: string) => void;
+  convertAndAddExcelFiles: () => void;
 };
 
 type ProviderProps = {
@@ -41,17 +56,30 @@ type ProviderProps = {
 
 const FILE_TYPE = "application/pdf";
 const MAX_FILE_SIZE_MB = 5;
+const defaultExcelFile = {
+  id: uuid(),
+  name: "Thenex Importvorlage.xlsx",
+  croppedName: "Thenex Importvorlage.xlsx",
+  loading: true,
+  calculatedSize: "7 KB",
+  file: {
+    id: 1,
+    fileName: "Thenex Importvorlage.xlsx",
+  },
+};
 const FileContext = createContext<ContextProps>({
   loading: false,
-  addedFiles: [],
-  uploadFiles: () =>
+  documentFiles: [],
+  excelFile: defaultExcelFile,
+  uploadDocumentFiles: () =>
     new Promise((resolve, reject) => {
       resolve(true);
     }),
-  addFiles: () => {},
+  addDocumentFiles: () => {},
   addTemplate: () => {},
   addTemplates: () => {},
   removeFile: () => {},
+  convertAndAddExcelFiles: () => {},
 });
 
 export function useFiles() {
@@ -62,16 +90,17 @@ export default function FileProvider({ children }: ProviderProps) {
   const { addMessage, removeMessage } = useErrorMessage();
   const [state, dispatch] = useReducer(fileReducer, {
     loading: false,
-    files: [],
+    documentFiles: [],
+    excelFile: defaultExcelFile,
   });
 
-  async function uploadFiles(): Promise<boolean> {
+  async function uploadDocumentFiles(): Promise<boolean> {
     let statusCodes: number[] = [];
 
-    dispatch({ type: SET_LOADING });
+    dispatch({ type: SET_LOADING, payload: true });
 
     await Promise.all(
-      state.files.map(async (f) => {
+      state.documentFiles.map(async (f) => {
         try {
           dispatch({ type: SET_FILE_LOADING, payload: f.id });
 
@@ -85,10 +114,17 @@ export default function FileProvider({ children }: ProviderProps) {
       })
     );
 
-    return statusCodes.every((sc) => sc === 200) && statusCodes.length === state.files.length;
+    dispatch({
+      type: SET_LOADING,
+      payload: false,
+    });
+
+    return (
+      statusCodes.every((sc) => sc === 200) && statusCodes.length === state.documentFiles.length
+    );
   }
 
-  function addFiles(files: File[]) {
+  function addDocumentFiles(files: File[]) {
     if (files.length === 0) return;
 
     removeMessage();
@@ -100,19 +136,19 @@ export default function FileProvider({ children }: ProviderProps) {
 
       if (!checkFileSize(file)) return addMessage(`${croppedFileName} ist zu groß.`);
 
-      if (!fileExists(file, state.files)) {
+      if (!fileExists(file, state.documentFiles)) {
         const customFileObj = {
           id: uuid(),
+          name: file.name,
           croppedName: croppedFileName,
           template: "",
           loading: false,
-          converted: false,
           calculatedSize: calculateFileSize(file.size),
           file,
         };
 
         dispatch({
-          type: ADD_FILE,
+          type: ADD_DOCUMENT_FILE,
           payload: customFileObj,
         });
       } else {
@@ -140,25 +176,48 @@ export default function FileProvider({ children }: ProviderProps) {
 
   function removeFile(fileId: string) {
     dispatch({
-      type: REMOVE_FILE,
+      type: REMOVE_DOCUMENT_FILE,
       payload: fileId,
+    });
+  }
+
+  async function convertAndAddExcelFiles() {
+    dispatch({
+      type: SET_LOADING,
+      payload: true,
+    });
+
+    const { data } = await get("convert");
+
+    dispatch({
+      type: ADD_EXCEL_FILE,
+      payload: {
+        id: uuid(),
+        name: data.fileName,
+        croppedName: cropFileName(data.fileName),
+        loading: false,
+        calculatedSize: calculateFileSize(data.fileSize),
+        file: data,
+      },
     });
   }
 
   const contextValue = {
     loading: state.loading,
-    addedFiles: state.files,
-    uploadFiles,
-    addFiles,
+    documentFiles: state.documentFiles,
+    excelFile: state.excelFile,
+    uploadDocumentFiles,
+    addDocumentFiles,
     addTemplate,
     addTemplates,
     removeFile,
+    convertAndAddExcelFiles,
   };
 
   return <FileContext.Provider value={contextValue}>{children}</FileContext.Provider>;
 }
 
-function fileExists(file: File, files: IFile[]) {
+function fileExists(file: File, files: IDocumentFile[]) {
   return files.find((f) => f.file.lastModified === file.lastModified && f.file.name === file.name);
 }
 

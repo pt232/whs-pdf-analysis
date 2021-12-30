@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import { DocumentSearchIcon, PlusSmIcon } from "@heroicons/react/outline";
 import { useRef } from "react";
 import { useFiles } from "../context/file/FileProvider";
@@ -6,19 +7,22 @@ import { fileListToArray } from "../utils/listToArray";
 type UploadButtonProps = {
   isFileAddedState: boolean;
   text: string;
+  type?: string;
 };
 
-export default function UploadButton({ isFileAddedState, text }: UploadButtonProps) {
-  const { addFiles } = useFiles();
+export default function UploadButton({ isFileAddedState, text, type }: UploadButtonProps) {
+  const navigate = useNavigate();
+  const { addDocumentFiles } = useFiles();
   const inputEl = useRef<HTMLInputElement>(null);
 
   function handleClick() {
+    if (type === "excel") return navigate("/");
     inputEl.current?.click();
   }
 
   function handleChange() {
     const files = inputEl.current?.files;
-    if (files) addFiles(fileListToArray(files));
+    if (files) addDocumentFiles(fileListToArray(files));
   }
 
   return (
