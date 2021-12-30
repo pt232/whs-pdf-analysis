@@ -1,5 +1,5 @@
 type DownloadButtonProps = {
-  fileId: string | undefined;
+  fileId: string;
   loading: boolean;
 };
 

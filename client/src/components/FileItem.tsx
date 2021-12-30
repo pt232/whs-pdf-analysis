@@ -52,7 +52,7 @@ export default function FileItem({ type, file, excelFile }: FileItemProps) {
         {file.calculatedSize}
       </div>
       {type === "excel" ? (
-        <DownloadButton fileId={excelFile?.file.id} loading={file.loading} />
+        <DownloadButton fileId={excelFile!.file.id} loading={file.loading} />
       ) : (
         <RemoveButton fileId={file.id} />
       )}
