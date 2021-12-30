@@ -15,6 +15,7 @@ import {
 } from "../types";
 import { buildFormDataFromObjects } from "../../utils/buildFormData";
 import { get, post } from "../../utils/rest";
+import { useHeading } from "../heading/HeadingProvider";
 
 interface IFile {
   id: string;
@@ -87,6 +88,7 @@ export function useFiles() {
 }
 
 export default function FileProvider({ children }: ProviderProps) {
+  const { setHeading } = useHeading();
   const { addMessage, removeMessage } = useErrorMessage();
   const [state, dispatch] = useReducer(fileReducer, {
     loading: false,
@@ -98,6 +100,11 @@ export default function FileProvider({ children }: ProviderProps) {
     let statusCodes: number[] = [];
 
     dispatch({ type: SET_LOADING, payload: true });
+
+    setHeading({
+      title: "Lädt hoch",
+      paragraph: "Geben Sie uns ein paar Sekunden...",
+    });
 
     await Promise.all(
       state.documentFiles.map(async (f) => {
@@ -187,6 +194,11 @@ export default function FileProvider({ children }: ProviderProps) {
       payload: true,
     });
 
+    setHeading({
+      title: "Die Dateien werden konvertiert",
+      paragraph: "Warten Sie einen Moment. Gleich können Sie die Importvorlage herunterladen...",
+    });
+
     const { data } = await get("convert");
 
     dispatch({
@@ -199,6 +211,11 @@ export default function FileProvider({ children }: ProviderProps) {
         calculatedSize: calculateFileSize(data.fileSize),
         file: data,
       },
+    });
+
+    setHeading({
+      title: "Konvertierung abgeschlossen!",
+      paragraph: "Laden Sie die konvertierte Datei herunter",
     });
   }
 
