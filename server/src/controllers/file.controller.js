@@ -27,6 +27,7 @@ function uploadFile(req, res) {
     template,
     file: req.file,
   });
+  removeFilesFromDirectory("public/downloads");
 
   return res.status(200).json({
     success: true,

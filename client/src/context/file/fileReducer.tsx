@@ -1,9 +1,10 @@
-import { IDocumentFile, IExcelFile } from "./FileProvider";
+import { defaultExcelFile, IDocumentFile, IExcelFile } from "./FileProvider";
 import {
   ADD_DOCUMENT_FILE,
   ADD_EXCEL_FILE,
   ADD_TEMPLATE,
   ADD_TEMPLATES,
+  CLEAR_FILES,
   REMOVE_DOCUMENT_FILE,
   SET_FILE_LOADING,
   SET_LOADING,
@@ -43,9 +44,13 @@ type AddTemplates = {
   readonly payload: string;
 };
 
-type RemoveFile = {
+type RemoveDocumentFile = {
   readonly type: "REMOVE_DOCUMENT_FILE";
   readonly payload: string;
+};
+
+type ClearFiles = {
+  readonly type: "CLEAR_FILES";
 };
 
 type SetFileLoading = {
@@ -64,7 +69,8 @@ type Action =
   | AddExcelFile
   | AddTemplate
   | AddTemplates
-  | RemoveFile
+  | RemoveDocumentFile
+  | ClearFiles
   | SetFileLoading
   | SetLoading;
 
@@ -95,6 +101,13 @@ export function fileReducer(state: State, action: Action): State {
       return {
         ...state,
         documentFiles: state.documentFiles.filter((f) => f.id !== action.payload),
+      };
+    case CLEAR_FILES:
+      return {
+        ...state,
+        loading: false,
+        documentFiles: [],
+        excelFile: defaultExcelFile,
       };
     case SET_FILE_LOADING:
       return {

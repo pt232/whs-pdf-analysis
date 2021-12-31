@@ -5,10 +5,23 @@ import DropZone from "../components/DropZone";
 import FileList from "../components/FileList";
 import { useFiles } from "../context/file/FileProvider";
 import useDrag from "../hooks/useDrag";
+import { useEffect } from "react";
+import { useHeading } from "../context/heading/HeadingProvider";
 
 export default function HomePage() {
-  const { documentFiles } = useFiles();
+  const { setHeading } = useHeading();
+  const { documentFiles, clearFiles } = useFiles();
   const isDragging = useDrag();
+
+  useEffect(() => {
+    clearFiles();
+    setHeading({
+      title: "PDF-Datei hochladen",
+      paragraph: "Dokumente hochladen und bequem Daten extrahieren",
+    });
+
+    // eslint-disable-next-line
+  }, []);
 
   return (
     <Layout>

@@ -9,6 +9,7 @@ import {
   ADD_EXCEL_FILE,
   ADD_TEMPLATE,
   ADD_TEMPLATES,
+  CLEAR_FILES,
   REMOVE_DOCUMENT_FILE,
   SET_FILE_LOADING,
   SET_LOADING,
@@ -48,6 +49,7 @@ type ContextProps = {
   addTemplate: (fileId: string, template: string) => void;
   addTemplates: (template: string) => void;
   removeFile: (fileId: string) => void;
+  clearFiles: () => void;
   convertAndAddExcelFiles: () => void;
 };
 
@@ -57,7 +59,8 @@ type ProviderProps = {
 
 const FILE_TYPE = "application/pdf";
 const MAX_FILE_SIZE_MB = 5;
-const defaultExcelFile = {
+
+export const defaultExcelFile = {
   id: uuid(),
   name: "Thenex Importvorlage.xlsx",
   croppedName: "Thenex Importvorlage.xlsx",
@@ -68,6 +71,7 @@ const defaultExcelFile = {
     fileName: "Thenex Importvorlage.xlsx",
   },
 };
+
 const FileContext = createContext<ContextProps>({
   loading: false,
   documentFiles: [],
@@ -80,6 +84,7 @@ const FileContext = createContext<ContextProps>({
   addTemplate: () => {},
   addTemplates: () => {},
   removeFile: () => {},
+  clearFiles: () => {},
   convertAndAddExcelFiles: () => {},
 });
 
@@ -190,6 +195,12 @@ export default function FileProvider({ children }: ProviderProps) {
     });
   }
 
+  function clearFiles() {
+    dispatch({
+      type: CLEAR_FILES,
+    });
+  }
+
   async function convertAndAddExcelFiles() {
     dispatch({
       type: SET_LOADING,
@@ -235,6 +246,7 @@ export default function FileProvider({ children }: ProviderProps) {
     addTemplate,
     addTemplates,
     removeFile,
+    clearFiles,
     convertAndAddExcelFiles,
   };
 
