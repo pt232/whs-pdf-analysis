@@ -1,4 +1,5 @@
 import { createContext, ReactNode, useContext, useReducer } from "react";
+import { useNavigate } from "react-router-dom";
 import { v4 as uuid } from "uuid";
 import { useErrorMessage } from "../message/ErrorMessageProvider";
 import { calculateFileSize } from "../../utils/calculateFileSize";
@@ -93,6 +94,7 @@ export function useFiles() {
 }
 
 export default function FileProvider({ children }: ProviderProps) {
+  const navigate = useNavigate();
   const { setHeading } = useHeading();
   const { addMessage, removeMessage } = useErrorMessage();
   const [state, dispatch] = useReducer(fileReducer, {
@@ -234,6 +236,7 @@ export default function FileProvider({ children }: ProviderProps) {
       });
     } catch {
       addMessage("Fehler beim Konvertieren!", "Bei der Konvertierung ist etwas schiefgelaufen.");
+      navigate("/");
     }
   }
 

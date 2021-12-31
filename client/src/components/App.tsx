@@ -7,17 +7,17 @@ import HomePage from "../pages/HomePage";
 
 export default function App() {
   return (
-    <ErrorMessageProvider>
-      <HeadingProvider>
-        <FileProvider>
-          <Router>
+    <Router>
+      <ErrorMessageProvider>
+        <HeadingProvider>
+          <FileProvider>
             <Routes>
               <Route index element={<HomePage />} />
               <Route path="/download" element={<DownloadPage />} />
             </Routes>
-          </Router>
-        </FileProvider>
-      </HeadingProvider>
-    </ErrorMessageProvider>
+          </FileProvider>
+        </HeadingProvider>
+      </ErrorMessageProvider>
+    </Router>
   );
 }
