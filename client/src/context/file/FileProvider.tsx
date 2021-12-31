@@ -11,6 +11,7 @@ import {
   ADD_TEMPLATE,
   ADD_TEMPLATES,
   CLEAR_FILES,
+  REMOVE_ALL_FILE_LOADING,
   REMOVE_DOCUMENT_FILE,
   SET_FILE_LOADING,
   SET_LOADING,
@@ -123,6 +124,8 @@ export default function FileProvider({ children }: ProviderProps) {
 
           statusCodes.push(status);
         } catch {
+          dispatch({ type: REMOVE_ALL_FILE_LOADING });
+          dispatch({ type: SET_LOADING, payload: false });
           addMessage("Fehler beim Upload!", "Beim Upload ist etwas schiefgelaufen.");
         }
       })

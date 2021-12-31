@@ -18,7 +18,7 @@ export default function FileItem({ type, file, excelFile }: FileItemProps) {
     if (type === "excel" && file.loading) return "Konvertiert";
     if (type === "excel" && !file.loading) return "Beendet";
     if (type !== "excel" && file.loading) return "Lädt hoch";
-    else return "Hochgeladen";
+    else return "Fertig";
   }
 
   return (

@@ -6,6 +6,7 @@ import {
   ADD_TEMPLATES,
   CLEAR_FILES,
   REMOVE_DOCUMENT_FILE,
+  REMOVE_ALL_FILE_LOADING,
   SET_FILE_LOADING,
   SET_LOADING,
 } from "../types";
@@ -58,6 +59,10 @@ type SetFileLoading = {
   readonly payload: string;
 };
 
+type RemoveAllFileLoading = {
+  readonly type: "REMOVE_ALL_FILE_LOADING";
+};
+
 type SetLoading = {
   readonly type: "SET_LOADING";
   readonly payload: boolean;
@@ -72,6 +77,7 @@ type Action =
   | RemoveDocumentFile
   | ClearFiles
   | SetFileLoading
+  | RemoveAllFileLoading
   | SetLoading;
 
 export function fileReducer(state: State, action: Action): State {
@@ -117,6 +123,13 @@ export function fileReducer(state: State, action: Action): State {
             return { ...f, loading: true };
           }
           return f;
+        }),
+      };
+    case REMOVE_ALL_FILE_LOADING:
+      return {
+        ...state,
+        documentFiles: state.documentFiles.map((f) => {
+          return { ...f, loading: false };
         }),
       };
     case SET_LOADING:
