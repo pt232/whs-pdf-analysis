@@ -19,7 +19,7 @@ export default function Layout({ children }: LayoutProps) {
     <div className="lg:flex flex-col justify-center items-center min-h-screen py-10 px-6">
       <div className="w-full max-w-5xl mx-auto">
         <Heading title={title} paragraph={paragraph} />
-        {message ? <ErrorMessageItem text={message} /> : null}
+        {message ? <ErrorMessageItem message={message} /> : null}
         {children}
         <StepList />
       </div>

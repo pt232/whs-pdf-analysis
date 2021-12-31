@@ -116,7 +116,7 @@ export default function FileProvider({ children }: ProviderProps) {
 
           statusCodes.push(status);
         } catch {
-          addMessage("Beim Upload ist etwas schiefgelaufen.");
+          addMessage("Fehler beim Upload!", "Beim Upload ist etwas schiefgelaufen.");
         }
       })
     );
@@ -139,9 +139,11 @@ export default function FileProvider({ children }: ProviderProps) {
     files.forEach((file) => {
       const croppedFileName = cropFileName(file.name, 3);
 
-      if (!checkFileType(file)) return addMessage(`${croppedFileName} ist keine PDF-Datei.`);
+      if (!checkFileType(file))
+        return addMessage("Fehler beim Upload!", `${croppedFileName} ist keine PDF-Datei.`);
 
-      if (!checkFileSize(file)) return addMessage(`${croppedFileName} ist zu groß.`);
+      if (!checkFileSize(file))
+        return addMessage("Fehler beim Upload!", `${croppedFileName} ist zu groß.`);
 
       if (!fileExists(file, state.documentFiles)) {
         const customFileObj = {
@@ -159,7 +161,7 @@ export default function FileProvider({ children }: ProviderProps) {
           payload: customFileObj,
         });
       } else {
-        addMessage(`${croppedFileName} wurde bereits hochgeladen.`);
+        addMessage("Fehler beim Upload!", `${croppedFileName} wurde bereits hochgeladen.`);
       }
     });
   }
@@ -199,24 +201,29 @@ export default function FileProvider({ children }: ProviderProps) {
       paragraph: "Warten Sie einen Moment. Gleich können Sie die Importvorlage herunterladen...",
     });
 
-    const { data } = await get("convert");
+    try {
+      const { data } = await get("convert");
+      const file = data.data;
 
-    dispatch({
-      type: ADD_EXCEL_FILE,
-      payload: {
-        id: uuid(),
-        name: data.fileName,
-        croppedName: cropFileName(data.fileName, 4),
-        loading: false,
-        calculatedSize: calculateFileSize(data.fileSize),
-        file: data,
-      },
-    });
+      dispatch({
+        type: ADD_EXCEL_FILE,
+        payload: {
+          id: uuid(),
+          name: file.fileName,
+          croppedName: cropFileName(file.fileName, 4),
+          loading: false,
+          calculatedSize: calculateFileSize(file.fileSize),
+          file,
+        },
+      });
 
-    setHeading({
-      title: "Konvertierung abgeschlossen!",
-      paragraph: "Laden Sie die konvertierte Datei herunter",
-    });
+      setHeading({
+        title: "Konvertierung abgeschlossen!",
+        paragraph: "Laden Sie die konvertierte Datei herunter",
+      });
+    } catch {
+      addMessage("Fehler beim Konvertieren!", "Bei der Konvertierung ist etwas schiefgelaufen.");
+    }
   }
 
   const contextValue = {

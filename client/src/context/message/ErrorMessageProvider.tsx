@@ -5,13 +5,18 @@ type ProviderProps = {
 };
 
 type ContextProps = {
-  message: string;
-  addMessage: (text: string) => void;
+  message: ErrorMessage | null;
+  addMessage: (context: string, text: string) => void;
   removeMessage: () => void;
 };
 
+export type ErrorMessage = {
+  context: string;
+  message: string;
+};
+
 const ErrorMessageContext = createContext<ContextProps>({
-  message: "",
+  message: null,
   addMessage: () => {},
   removeMessage: () => {},
 });
@@ -21,14 +26,17 @@ export function useErrorMessage() {
 }
 
 export default function ErrorMessageProvider({ children }: ProviderProps) {
-  const [message, setMessage] = useState("");
+  const [message, setMessage] = useState<ErrorMessage | null>(null);
 
-  function addMessage(text: string) {
-    setMessage(text);
+  function addMessage(context: string, text: string) {
+    setMessage({
+      context,
+      message: text,
+    });
   }
 
   function removeMessage() {
-    setMessage("");
+    setMessage(null);
   }
 
   const contextValue = {

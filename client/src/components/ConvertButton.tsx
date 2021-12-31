@@ -17,10 +17,11 @@ export default function ConvertButton({ text }: ConvertButtonProps) {
 
     removeMessage();
     if (!checkForTemplates(documentFiles))
-      return addMessage("Nicht alle Dateien haben eine Vorlage.");
+      return addMessage("Fehler beim Upload!", "Nicht alle Dateien haben eine Vorlage.");
 
     uploadDocumentFiles().then((success) => {
       if (success) navigate("/download");
+      else addMessage("Fehler beim Upload!", "Beim Upload ist etwas schiefgelaufen.");
     });
   }
 
