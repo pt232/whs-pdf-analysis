@@ -127,6 +127,10 @@ export default function FileProvider({ children }: ProviderProps) {
           dispatch({ type: REMOVE_ALL_FILE_LOADING });
           dispatch({ type: SET_LOADING, payload: false });
           addMessage("Fehler beim Upload!", "Beim Upload ist etwas schiefgelaufen.");
+          setHeading({
+            title: "PDF-Datei hochladen",
+            paragraph: "Dokumente hochladen und bequem Daten extrahieren",
+          });
         }
       })
     );
