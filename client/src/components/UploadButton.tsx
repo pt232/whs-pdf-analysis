@@ -31,7 +31,7 @@ export default function UploadButton({ isFileAddedState, text, type }: UploadBut
       <button
         onClick={handleClick}
         className={`${isFileAddedState ? "btn--files" : "btn--default"} ${
-          loading ? "cursor-not-allowed opacity-40" : ""
+          loading ? "cursor-not-allowed opacity-40" : "hover:scale-105"
         }`}
       >
         {isFileAddedState ? (
