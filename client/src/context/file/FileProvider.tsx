@@ -1,5 +1,6 @@
 import { createContext, ReactNode, useContext, useReducer } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 import { v4 as uuid } from "uuid";
 import { useErrorMessage } from "../message/ErrorMessageProvider";
 import { calculateFileSize } from "../../utils/calculateFileSize";
@@ -61,6 +62,8 @@ type ProviderProps = {
 
 const FILE_TYPE = "application/pdf";
 const MAX_FILE_SIZE_MB = 5;
+const ERROR_CONTEXT_UPLOAD = "Fehler beim Upload!";
+const ERROR_CONTEXT_CONVERT = "Fehler beim Konvertieren!";
 
 export const defaultExcelFile = {
   id: uuid(),
@@ -123,10 +126,16 @@ export default function FileProvider({ children }: ProviderProps) {
           const { status } = await post("upload", formData);
 
           statusCodes.push(status);
-        } catch {
+        } catch (err) {
           dispatch({ type: REMOVE_ALL_FILE_LOADING });
           dispatch({ type: SET_LOADING, payload: false });
-          addMessage("Fehler beim Upload!", "Beim Upload ist etwas schiefgelaufen.");
+
+          if (axios.isAxiosError(err)) {
+            const errorObj = err.response?.data?.error;
+            if (errorObj) addMessage(ERROR_CONTEXT_UPLOAD, errorObj.message);
+            else addMessage(ERROR_CONTEXT_UPLOAD, "Beim Upload ist etwas schiefgelaufen.");
+          }
+
           setHeading({
             title: "PDF-Datei hochladen",
             paragraph: "Dokumente hochladen und bequem Daten extrahieren",
@@ -154,10 +163,10 @@ export default function FileProvider({ children }: ProviderProps) {
       const croppedFileName = cropFileName(file.name, 3);
 
       if (!checkFileType(file))
-        return addMessage("Fehler beim Upload!", `${croppedFileName} ist keine PDF-Datei.`);
+        return addMessage(ERROR_CONTEXT_UPLOAD, `${croppedFileName} ist keine PDF-Datei.`);
 
       if (!checkFileSize(file))
-        return addMessage("Fehler beim Upload!", `${croppedFileName} ist zu groß.`);
+        return addMessage(ERROR_CONTEXT_UPLOAD, `${croppedFileName} ist größer als 5 MB.`);
 
       if (!fileExists(file, state.documentFiles)) {
         const customFileObj = {
@@ -175,7 +184,7 @@ export default function FileProvider({ children }: ProviderProps) {
           payload: customFileObj,
         });
       } else {
-        addMessage("Fehler beim Upload!", `${croppedFileName} wurde bereits hochgeladen.`);
+        addMessage(ERROR_CONTEXT_UPLOAD, `${croppedFileName} wurde bereits hochgeladen.`);
       }
     });
   }
@@ -241,8 +250,13 @@ export default function FileProvider({ children }: ProviderProps) {
         title: "Konvertierung abgeschlossen!",
         paragraph: "Laden Sie die konvertierte Datei herunter",
       });
-    } catch {
-      addMessage("Fehler beim Konvertieren!", "Bei der Konvertierung ist etwas schiefgelaufen.");
+    } catch (err) {
+      if (axios.isAxiosError(err)) {
+        const errorObj = err.response?.data?.error;
+        if (errorObj) addMessage(ERROR_CONTEXT_CONVERT, errorObj.message);
+        else addMessage(ERROR_CONTEXT_CONVERT, "Bei der Konvertierung ist etwas schiefgelaufen.");
+      }
+
       navigate("/");
     }
   }
