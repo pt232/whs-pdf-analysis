@@ -4,6 +4,7 @@ import HeadingProvider from "../context/heading/HeadingProvider";
 import ErrorMessageProvider from "../context/message/ErrorMessageProvider";
 import DownloadPage from "../pages/DownloadPage";
 import HomePage from "../pages/HomePage";
+import NotFoundPage from "../pages/NotFoundPage";
 
 export default function App() {
   return (
@@ -14,6 +15,7 @@ export default function App() {
             <Routes>
               <Route index element={<HomePage />} />
               <Route path="/download" element={<DownloadPage />} />
+              <Route path="*" element={<NotFoundPage />} />
             </Routes>
           </FileProvider>
         </HeadingProvider>
