@@ -3,8 +3,8 @@ import StepItem from "./StepItem";
 export default function StepList() {
   const stepDescriptions = [
     "Wählen Sie die PDF-Dokumente, die Sie konvertieren möchten, über den Button oder per Drag & Drop aus. Suchen Sie sich dann die passende Vorlage heraus. Zur Verfügung steht eine Auswahl der Thenex-Kunden.",
-    "Klicken Sie auf den Konvertieren-Button. Die PDF-Dokumente werden dann hochgeladen. Im nächsten Schritt wird für Sie eine Excel-Datei erstellt. Der Vorgang kann einige Sekunden dauern.",
-    "Jetzt steht Ihre neue Importdatei für das Topix-System zum Download bereit. Nachdem der Download abgeschlossen ist, werden die vorher hochgeladenen PDF-Dokumente vom Server entfernt.",
+    "Klicken Sie auf den Konvertieren-Button. Die PDF-Dokumente werden dann hochgeladen. Anschließend wird für Sie eine Excel-Datei erstellt. Der Vorgang kann einige Sekunden dauern.",
+    "Jetzt steht Ihre neue Importdatei für das Topix-System zum Download bereit. Nachdem der Download abgeschlossen ist, werden die vorher hochgeladenen PDF-Dokumente vom Server wieder entfernt.",
   ];
 
   return (
