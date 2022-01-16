@@ -10,7 +10,7 @@ export default function StepItem({ count, title, description }: StepItemProps) {
       <div className="flex justify-center items-center w-8 h-8 bg-white text-thenex-blue font-bold border border-solid border-thenex-gray rounded-full">
         {count}
       </div>
-      <h3 className="py-2 text-thenex-gray-dark lg:text-lg">{title}</h3>
+      <h3 className="py-2 text-thenex-gray-dark text-center lg:text-lg">{title}</h3>
       <p className="text-thenex-gray text-center text-sm">{description}</p>
     </div>
   );
