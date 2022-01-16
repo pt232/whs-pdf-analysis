@@ -15,6 +15,7 @@ module.exports = {
       },
       fontFamily: {
         sans: ["Opens Sans", ...defaultTheme.fontFamily.sans],
+        logo: ["Days One", defaultTheme.fontFamily.sans],
       },
       backgroundImage: {
         "dropzone-pattern": "url('/src/images/pattern.png')",
