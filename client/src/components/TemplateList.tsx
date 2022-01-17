@@ -18,18 +18,6 @@ export const TemplateList = React.forwardRef<HTMLDivElement, TemplateListProps>(
         }`}
       >
         <ul className="relative grid grid-cols-3 w-max bg-thenex-gray-dark rounded-md overflow-hidden shadow-lg z-20">
-          <TemplateItem
-            fileId={fileId}
-            text="Swcc"
-            tooltip="Saline Water Conversion Corporation"
-            closeList={closeList}
-          />
-          <TemplateItem
-            fileId={fileId}
-            text="Tgu"
-            tooltip="Trinidad Generation Unlimited"
-            closeList={closeList}
-          />
           <TemplateItem fileId={fileId} text="Proman" tooltip="Proman" closeList={closeList} />
           <TemplateItem
             fileId={fileId}
@@ -41,6 +29,18 @@ export const TemplateList = React.forwardRef<HTMLDivElement, TemplateListProps>(
             fileId={fileId}
             text="Sadara"
             tooltip="Sadara Chemical Company"
+            closeList={closeList}
+          />
+          <TemplateItem
+            fileId={fileId}
+            text="Swcc"
+            tooltip="Saline Water Conversion Corporation"
+            closeList={closeList}
+          />
+          <TemplateItem
+            fileId={fileId}
+            text="Tgu"
+            tooltip="Trinidad Generation Unlimited"
             closeList={closeList}
           />
         </ul>

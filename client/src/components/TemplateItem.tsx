@@ -11,6 +11,8 @@ export default function TemplateItem({ fileId, text, tooltip, closeList }: Templ
   const { addTemplate, addTemplates } = useFiles();
 
   function handleClick() {
+    if (text === "Swcc") return;
+
     if (fileId) addTemplate(fileId, text);
     else addTemplates(text);
 
@@ -20,7 +22,9 @@ export default function TemplateItem({ fileId, text, tooltip, closeList }: Templ
   return (
     <li
       title={tooltip}
-      className="px-4 py-2 text-thenex-gray text-sm uppercase cursor-pointer transition-colors hover:bg-thenex-gray hover:text-white"
+      className={`px-4 py-2 text-thenex-gray text-sm uppercase cursor-pointer transition-colors hover:bg-thenex-gray hover:text-white ${
+        text === "Swcc" ? "cursor-not-allowed" : ""
+      }`}
       onClick={handleClick}
     >
       {text}
