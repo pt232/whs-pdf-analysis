@@ -1,7 +1,7 @@
 const path = require("path");
 const fs = require("fs");
 const validator = require("validator");
-const { getFilteredItems, getDataByTemplate } = require("../services/pdfParser");
+const { getDataByTemplate } = require("../services/pdfParser");
 const { writeToSheet } = require("../services/sheetWriter");
 const { removeFilesFromDirectory } = require("../utils/removeFiles");
 
@@ -67,11 +67,11 @@ async function convertFiles(req, res) {
         });
       }
 
-      const filteredItems = await getFilteredItems(
-        fileToBeConverted.file.destination + fileToBeConverted.file.filename
+      const data = await getDataByTemplate(
+        fileToBeConverted.file.destination + fileToBeConverted.file.filename,
+        fileToBeConverted.template
       );
-
-      rowData.push(getDataByTemplate(fileToBeConverted.template, filteredItems));
+      data.forEach((entry) => rowData.push(entry));
     }
 
     const sheetFileData = await writeToSheet(rowData);

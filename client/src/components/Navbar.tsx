@@ -1,4 +1,4 @@
-import { SunIcon } from "@heroicons/react/solid";
+import { MoonIcon } from "@heroicons/react/solid";
 import { Link } from "react-router-dom";
 
 export default function Navbar() {
@@ -9,7 +9,7 @@ export default function Navbar() {
           <h2 className="font-logo text-thenex-blue text-2xl md:text-3xl select-none">thenex</h2>
         </Link>
         <button title="Darkmode Button">
-          <SunIcon className="w-6 h-6 text-thenex-gray-dark" />
+          <MoonIcon className="w-6 h-6 text-thenex-gray-dark" />
         </button>
       </div>
     </header>

@@ -17,7 +17,7 @@ async function writeToSheet(rowData) {
     { header: "KdArt.Nr:Preis (nicht anfassen)", key: "custProdNoPrice" },
     { header: "Länge (kein Import)", key: "charLength" },
     { header: "Kundenpreis", key: "customerPrice" },
-    { header: "Einheit EINFÜGEN AB HIER", key: "reminder" },
+    { header: "Einheit EINFÜGEN AB HIER", key: "unit" },
     { header: "Kundenartikelnummer (kein Import)", key: "customerProductNo" },
     { header: "thenex Artikelnummer", key: "thenexProductNo" },
     { header: "Bezeichnung", key: "title" },
@@ -37,9 +37,11 @@ async function writeToSheet(rowData) {
   worksheet.addRows(rowData);
 
   for (let rowNumber = startingRow; rowNumber <= rowData.length + 1; rowNumber++) {
-    worksheet.getCell(`A${rowNumber}`).value = { formula: `=E${rowNumber}&":"&C${rowNumber}` };
-    worksheet.getCell(`B${rowNumber}`).value = { formula: `=LEN(G${rowNumber})` };
-    worksheet.getCell(`C${rowNumber}`).value = { formula: `=Q${rowNumber}*1.42` };
+    if (worksheet.getCell(`Q${rowNumber}`).value.trim() !== "") {
+      worksheet.getCell(`A${rowNumber}`).value = { formula: `=E${rowNumber}&":"&C${rowNumber}` };
+      worksheet.getCell(`B${rowNumber}`).value = { formula: `=LEN(G${rowNumber})` };
+      worksheet.getCell(`C${rowNumber}`).value = { formula: `=Q${rowNumber}*1.42` };
+    }
   }
 
   await workbook.xlsx.writeFile(filePath + fileName).catch(() => {

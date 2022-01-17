@@ -9,15 +9,38 @@ async function getContent(src) {
 
 async function getItems(src) {
   const content = await getContent(src);
-  return content.items.map((item) => item.str.trim());
+  const filteredItems = getFilteredItems(content.items);
+  let lineCount = 0;
+  let itemInLineCount = 0;
+
+  return filteredItems.map((item, index, array) => {
+    let isFirstInLine = false;
+
+    if (index === 0 || item.transform[5] !== array[index - 1].transform[5]) {
+      isFirstInLine = true;
+      lineCount++;
+      itemInLineCount = 0;
+    }
+
+    itemInLineCount++;
+
+    return {
+      line: lineCount,
+      isFirstInLine,
+      itemNumbInLine: itemInLineCount,
+      str: item.str.trim(),
+      transform: item.transform,
+    };
+  });
 }
 
-async function getFilteredItems(src) {
+function getFilteredItems(items) {
+  return items.filter((item) => item.str.trim() !== "");
+}
+
+async function getDataByTemplate(src, template) {
   const items = await getItems(src);
-  return items.filter((item) => item != null && item !== "");
-}
 
-function getDataByTemplate(template, items) {
   switch (template) {
     case "Sabic":
       return getDataWithSabic(items);
