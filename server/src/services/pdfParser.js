@@ -1,4 +1,5 @@
 const pdfjs = require("pdfjs-dist/legacy/build/pdf");
+const { getDataWithProman } = require("./templates/proman");
 const { getDataWithSabic } = require("./templates/sabic");
 
 async function getContent(src) {
@@ -42,6 +43,8 @@ async function getDataByTemplate(src, template) {
   const items = await getItems(src);
 
   switch (template) {
+    case "Proman":
+      return getDataWithProman(items);
     case "Sabic":
       return getDataWithSabic(items);
     default:
