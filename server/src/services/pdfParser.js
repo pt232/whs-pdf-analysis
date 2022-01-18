@@ -2,6 +2,7 @@ const pdfjs = require("pdfjs-dist/legacy/build/pdf");
 const { getDataWithProman } = require("./templates/proman");
 const { getDataWithSabic } = require("./templates/sabic");
 const { getDataWithSadara } = require("./templates/sadara");
+const { getDataWithTgu } = require("./templates/tgu");
 
 async function getContent(src) {
   const doc = await pdfjs.getDocument(src).promise;
@@ -50,6 +51,8 @@ async function getDataByTemplate(src, template) {
       return getDataWithSabic(items);
     case "Sadara":
       return getDataWithSadara(items);
+    case "Tgu":
+      return getDataWithTgu(items);
     default:
       throw new Error("Ein Template konnte nicht gefunden werden.");
   }

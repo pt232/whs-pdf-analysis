@@ -47,11 +47,11 @@ function findProductTitle(items) {
  * and 'Anlagen'. The delimiter is currently just a line break.
  */
 function findProductDescription(items) {
-  const startIndex = items.findIndex((item) => item.str.toUpperCase() === "POSITIONSLANGTEXT:") + 2;
+  const startIndex = items.findIndex((item) => item.str.toUpperCase() === "POSITIONSLANGTEXT:");
   const endIndex = items.findIndex((item) => item.str.toUpperCase() === "ANLAGEN:");
-  const descriptionArray = items.slice(startIndex, endIndex);
 
   if (startIndex >= 0 && endIndex >= 0) {
+    const descriptionArray = items.slice(startIndex + 2, endIndex);
     return descriptionArray.map((item) => item.str).join("\r\n");
   }
   return "";
