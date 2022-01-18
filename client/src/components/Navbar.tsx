@@ -1,5 +1,5 @@
-import { SunIcon } from "@heroicons/react/outline";
 import { Link } from "react-router-dom";
+import DarkModeButton from "./DarkModeButton";
 
 export default function Navbar() {
   return (
@@ -10,9 +10,7 @@ export default function Navbar() {
             thenex
           </h2>
         </Link>
-        <button title="Darkmode Button">
-          <SunIcon className="w-6 h-6 text-thenex-gray-dark dark:text-darkmode-lighter" />
-        </button>
+        <DarkModeButton />
       </div>
     </header>
   );
