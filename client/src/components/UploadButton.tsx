@@ -36,7 +36,7 @@ export default function UploadButton({ isFileAddedState, text, type }: UploadBut
       >
         {isFileAddedState ? (
           <>
-            <PlusSmIcon className="h-6 w-6 text-thenex-blue" />
+            <PlusSmIcon className="h-6 w-6 text-thenex-blue dark:text-darkmode-light" />
             <span className="inline-block ml-3 text-sm">{text}</span>
           </>
         ) : (

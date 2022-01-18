@@ -17,7 +17,7 @@ export const TemplateList = React.forwardRef<HTMLDivElement, TemplateListProps>(
           orientation === "top" ? "-top-16 left-2/4 transform -translate-x-2/4" : "top-11 -right-1"
         }`}
       >
-        <ul className="relative grid grid-cols-3 w-max bg-thenex-gray-dark rounded-md overflow-hidden shadow-lg z-20">
+        <ul className="relative grid grid-cols-3 w-max bg-thenex-gray-dark dark:bg-darkmode rounded-md overflow-hidden shadow-lg z-20">
           <TemplateItem fileId={fileId} text="Proman" tooltip="Proman" closeList={closeList} />
           <TemplateItem
             fileId={fileId}

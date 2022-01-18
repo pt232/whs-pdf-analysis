@@ -26,11 +26,13 @@ export default function TemplateSelector({ fileId }: TemplateSelectorProps) {
 
   return (
     <div
-      className="relative flex items-center p-2 ml-2 border border-thenex-gray-dark rounded-md cursor-pointer"
+      className="relative flex items-center p-2 ml-2 border border-thenex-gray-dark dark:border-darkmode dark:bg-darkmode rounded-md cursor-pointer"
       onClick={handleClick}
     >
-      <span className="mr-2 uppercase text-xs">{templateName}</span>
-      <ChevronDownIcon className={`w-4 h-4 transform ${isListVisible && "rotate-180"}`} />
+      <span className="mr-2 uppercase dark:text-darkmode-lighter text-xs">{templateName}</span>
+      <ChevronDownIcon
+        className={`w-4 h-4 transform dark:text-darkmode-lighter ${isListVisible && "rotate-180"}`}
+      />
 
       {isListVisible && <TemplateList ref={listElement} fileId={fileId} />}
     </div>

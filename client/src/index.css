@@ -11,6 +11,6 @@
   }
 
   .btn--files {
-    @apply flex items-center justify-between py-2 px-4 bg-white text-thenex-gray-dark font-medium rounded shadow-lg transform transition-transform;
+    @apply flex items-center justify-between py-2 px-4 bg-white dark:bg-darkmode text-thenex-gray-dark dark:text-darkmode-lighter font-medium rounded shadow-lg transform transition-transform;
   }
 }

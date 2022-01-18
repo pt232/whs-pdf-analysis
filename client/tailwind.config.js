@@ -2,7 +2,7 @@ const defaultTheme = require("tailwindcss/defaultTheme");
 
 module.exports = {
   purge: [],
-  darkMode: false,
+  darkMode: "media",
   theme: {
     extend: {
       colors: {
@@ -12,6 +12,13 @@ module.exports = {
           DEFAULT: "#959595",
           dark: "#333333",
         },
+        darkmode: {
+          lighter: "#f3f4f6",
+          light: "#999999",
+          DEFAULT: "#363636",
+          dark: "#212121",
+          darker: "#181818",
+        },
       },
       fontFamily: {
         sans: ["Opens Sans", ...defaultTheme.fontFamily.sans],
@@ -19,6 +26,7 @@ module.exports = {
       },
       backgroundImage: {
         "dropzone-pattern": "url('/src/images/pattern.png')",
+        "dropzone-pattern-dark": "url('/src/images/pattern-darkmode.png')",
       },
       animation: {
         "spin-slow": "spin 2s linear infinite",
@@ -30,6 +38,7 @@ module.exports = {
       translate: ["group-hover"],
       boxShadow: ["last"],
       borderWidth: ["hover", "last"],
+      backgroundImage: ["dark"],
     },
   },
   plugins: [],

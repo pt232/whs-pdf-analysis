@@ -22,7 +22,7 @@ export default function TemplateItem({ fileId, text, tooltip, closeList }: Templ
   return (
     <li
       title={tooltip}
-      className={`px-4 py-2 text-thenex-gray text-sm uppercase cursor-pointer transition-colors hover:bg-thenex-gray hover:text-white ${
+      className={`px-4 py-2 text-thenex-gray dark:text-darkmode-lighter text-sm uppercase cursor-pointer transition-colors hover:bg-thenex-gray hover:text-white ${
         text === "Swcc" ? "cursor-not-allowed" : ""
       }`}
       onClick={handleClick}

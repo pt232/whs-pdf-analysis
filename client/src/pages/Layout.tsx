@@ -19,7 +19,7 @@ export default function Layout({ children, hideContent }: LayoutProps) {
   } = useHeading();
 
   return (
-    <div className="lg:flex flex-col justify-between items-center min-h-screen">
+    <div className="lg:flex flex-col justify-between items-center min-h-screen dark:bg-darkmode-darker">
       <Navbar />
       <div className="w-full max-w-5xl mx-auto my-6 py-10 px-6">
         {!hideContent ? <Heading title={title} paragraph={paragraph} /> : null}

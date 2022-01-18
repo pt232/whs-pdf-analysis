@@ -30,9 +30,9 @@ export default function FileList({ files }: FileListProps) {
           return <FileItem key={file.id} file={file} />;
         })}
       </ul>
-      <div className="relative flex justify-center py-6 bg-gray-100">
+      <div className="relative flex justify-center py-6 bg-gray-100 dark:bg-darkmode">
         <p
-          className="relative flex items-center text-thenex-gray text-xs cursor-pointer"
+          className="relative flex items-center text-thenex-gray dark:text-darkmode-lighter text-xs cursor-pointer"
           onClick={handleClick}
         >
           Vorlage für alle

@@ -31,7 +31,7 @@ export default function ConvertButton({ text }: ConvertButtonProps) {
 
   return (
     <button
-      className={`group flex justify-between items-center py-5 px-8 bg-thenex-blue text-white font-bold text-lg transition-all ${
+      className={`group flex justify-between items-center py-5 px-8 bg-thenex-blue text-white dark:text-darkmode-lighter font-bold text-lg transition-all ${
         loading ? "opacity-40 cursor-not-allowed" : "opacity-100 hover:bg-opacity-90"
       }`}
       onClick={handleClick}
